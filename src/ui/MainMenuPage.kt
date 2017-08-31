@@ -1,13 +1,13 @@
 package ui
 
+import util.UiUtil
+
 /**
  * Created by czyczk on 2017-8-30.
  */
-class UserInterface {
+class MainMenuPage {
     companion object {
-        fun showTitle() {
 
-        }
 
         fun showMenu() {
 
