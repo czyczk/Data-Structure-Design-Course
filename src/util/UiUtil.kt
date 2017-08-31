@@ -34,13 +34,19 @@ class UiUtil {
             println(UiUtil.getString("applicationTitleWithDecoration"))
         }
 
+        fun verifyAdministratorIdentity(): Boolean {
+            val input = readLine()
+            // TODO
+            return input == "password"
+        }
+
         /**
          * 转换全大写为驼峰大小写。
          * @param src 待转换的全大写的字符串。
          * @return 转换后依照驼峰规则的字符串。
          */
-        fun convertCamelCase(src: String): String {
-            val strArr = src.toLowerCase().split("_").toTypedArray()
+        private fun convertCamelCase(src: String): String {
+            val strArr = src.toLowerCase().split("_")
             val sb = StringBuilder()
             for (i in strArr.indices) {
                 if (i == 0) {
