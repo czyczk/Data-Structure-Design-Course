@@ -4,7 +4,34 @@ package dataStructure
  * 链表（单向）
  * @author Zenas Chen (czyczk)
  */
-class LinkedList<E> {
+class LinkedList<E> : Iterable<E> {
+    override fun iterator(): Iterator<E> {
+        return LinkedListIterator()
+    }
+
+    inner class LinkedListIterator : Iterator<E> {
+        var cursor: Node<E>? = null
+
+        override fun hasNext(): Boolean {
+            if (isEmpty) return false
+            if (cursor == null)
+                return true
+            else return cursor!!.next != null
+        }
+
+        override fun next(): E {
+            if (isEmpty) throw NoSuchElementException()
+            if (cursor == null) {
+                cursor = first
+                return first!!.data
+            } else {
+                cursor = cursor!!.next
+                if (cursor != null) return cursor!!.data
+                else throw NoSuchElementException()
+            }
+        }
+    }
+
     data class Node<E>(var data: E) {
         var next: Node<E>? = null
     }
