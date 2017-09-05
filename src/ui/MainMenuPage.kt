@@ -59,7 +59,7 @@ class MainMenuPage(val identity: LoginOption) {
 
             // 等待并检查用户的选择
             var pass: Boolean
-            var option: MainMenuOption
+            var option = MainMenuOption.PLACEHOLDER
             do {
                 pass = true
                 try {
@@ -74,7 +74,9 @@ class MainMenuPage(val identity: LoginOption) {
             } while (!pass)
 
             // 引发相应功能
-            println("invoke")
+            val isBreak = invoke(option)
+            if (isBreak)
+                break
         }
     }
 
@@ -92,5 +94,24 @@ class MainMenuPage(val identity: LoginOption) {
             println("\t$t. $optionStr")
         }
         println(UiUtil.getString("selectAnOption")) // 显示操作提示
+    }
+
+    private fun invoke(option: MainMenuOption): Boolean {
+        when (option) {
+            // PLACEHOLDER: nonsense
+            MainMenuOption.PLACEHOLDER -> error(UiUtil.getString("optionIsPlaceholder"))
+            // EXIT: exit the program
+            MainMenuOption.EXIT -> {
+                println(UiUtil.getString("bye"))
+                System.exit(0)
+            }
+            // BACK_TO_LOGIN_PAGE: break the loop in showMenu() and return to the Login Page
+            MainMenuOption.BACK_TO_LOGIN_PAGE -> return true
+            // SCENIC_SPOT_MANAGEMENT
+            MainMenuOption.SCENIC_SPOT_MANAGEMENT -> {
+
+            }
+        }
+        return false
     }
 }
