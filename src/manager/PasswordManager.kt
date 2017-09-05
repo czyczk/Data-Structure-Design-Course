@@ -1,8 +1,10 @@
 package manager
 
+import util.UiUtil
+
 class PasswordManager {
     companion object {
-        private lateinit var password: String
+        var password = UiUtil.getString("defaultPassword")
 
         fun update(newPassword: String) {
             password = newPassword

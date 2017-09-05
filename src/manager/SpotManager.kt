@@ -4,7 +4,7 @@ import model.Spot
 
 class SpotManager {
     companion object {
-        private val spotMap: MutableMap<String, Spot> = mutableMapOf()
+        var spotMap: MutableMap<String, Spot> = mutableMapOf()
 
         /**
          * 添加景点。

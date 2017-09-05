@@ -7,7 +7,7 @@ import model.Vector
 class RouteManager {
     companion object {
         // 存储线路信息，键值对为景点名称->邻接链表
-        val routeMap: MutableMap<String, LinkedList<Vector>> = mutableMapOf()
+        var routeMap: MutableMap<String, LinkedList<Vector>> = mutableMapOf()
 
         /**
          * 添加线路，需要检查线路是否存在。
