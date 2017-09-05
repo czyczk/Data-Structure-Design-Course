@@ -40,7 +40,8 @@ class LoginPage {
                     } catch (e: NumberFormatException) {
                     } finally {
                         // 无效回应则提示，有效回应则获取相应身份
-                        if (!pass) println(UiUtil.getString("invalidResponse"))
+                        if (!pass)
+                            System.err.println(UiUtil.getString("invalidResponse"))
                         else identity = optionList[resp]
                     }
                 } while (!pass)
@@ -49,7 +50,11 @@ class LoginPage {
                 if (identity == LoginOption.ADMINISTRATOR) {
                     println("输入密码：")
                     val isIdentityVerified = UiUtil.verifyAdministratorIdentity()
-                    if (!isIdentityVerified) continue   // 密码错误则返回登录界面
+                    if (!isIdentityVerified) {
+                        // 提示密码错误
+                        System.err.println(UiUtil.getString("incorrectPassword"))
+                        continue   // 密码错误则返回登录界面
+                    }
                 }
 
                 // 如果选择游客或通过管理员身份验证，则进入相应功能列表界面
