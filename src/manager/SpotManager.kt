@@ -50,7 +50,7 @@ class SpotManager {
          * @param isNameOnly 为 true 时，只检索名字包含关键字的景点；为 false 时检索条件包括简介。
          * @return 符合条件的景点的名称列表。
          */
-        fun query(keyword: String, isNameOnly: Boolean): Array<String> {
+        fun queryContains(keyword: String, isNameOnly: Boolean): Array<String> {
             /*
              * 返回结果中景点顺序依次为：
              * 名称为 keyword 的景点

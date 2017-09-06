@@ -36,8 +36,22 @@ class UiUtil {
 
         fun verifyAdministratorIdentity(): Boolean {
             val input = readLine()
-            // TODO
+            // TODO Verify the password.
             return input == "password"
+        }
+
+        /**
+         * 将用户输入转换为 boolean 值。
+         * @param resp 可转换为 true 的值有“Y”、“true”；可转换为 false 的值有“N”、“false”。不区分大小写。
+         * @return true 或 false
+         */
+        fun parseInputToChoice(resp: String): Boolean {
+            if (resp.equals("Y", true) || resp.equals("true", true))
+                return true
+            else if (resp.equals("N", true) || resp.equals("false", true))
+                return false
+            else
+                throw IllegalArgumentException("Not invalid input for a boolean value.")
         }
 
         /**

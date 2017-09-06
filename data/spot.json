@@ -1,0 +1,86 @@
+{
+  "北门": {
+    "name": "北门",
+    "introduction": "北边的门",
+    "popularity": 7.0,
+    "isRestAreaProvided": false,
+    "isToiletProvided": true
+  },
+  "狮子山": {
+    "name": "狮子山",
+    "introduction": "狮子的山",
+    "popularity": 6.4,
+    "isRestAreaProvided": true,
+    "isToiletProvided": true
+  },
+  "仙云石": {
+    "name": "仙云石",
+    "introduction": "仙云的石",
+    "popularity": 5.3,
+    "isRestAreaProvided": true,
+    "isToiletProvided": true
+  },
+  "一线天": {
+    "name": "一线天",
+    "introduction": "一线的天",
+    "popularity": 5.2,
+    "isRestAreaProvided": false,
+    "isToiletProvided": false
+  },
+  "飞流瀑": {
+    "name": "飞流瀑",
+    "introduction": "飞流的瀑",
+    "popularity": 6.8,
+    "isRestAreaProvided": false,
+    "isToiletProvided": false
+  },
+  "仙武湖": {
+    "name": "仙武湖",
+    "introduction": "仙武的湖",
+    "popularity": 7.2,
+    "isRestAreaProvided": true,
+    "isToiletProvided": false
+  },
+  "九曲桥": {
+    "name": "九曲桥",
+    "introduction": "九曲的桥",
+    "popularity": 8.3,
+    "isRestAreaProvided": false,
+    "isToiletProvided": false
+  },
+  "观云台": {
+    "name": "观云台",
+    "introduction": "观云的台",
+    "popularity": 4.9,
+    "isRestAreaProvided": true,
+    "isToiletProvided": false
+  },
+  "花卉园": {
+    "name": "花卉园",
+    "introduction": "花卉的园",
+    "popularity": 6.7,
+    "isRestAreaProvided": true,
+    "isToiletProvided": true
+  },
+  "红叶亭": {
+    "name": "红叶亭",
+    "introduction": "红叶的亭",
+    "popularity": 5.5,
+    "isRestAreaProvided": true,
+    "isToiletProvided": false
+  },
+  "朝日峰": {
+    "name": "朝日峰",
+    "introduction": "朝日的峰",
+    "popularity": 4.9,
+    "isRestAreaProvided": false,
+    "isToiletProvided": false
+  },
+  "碧水潭": {
+    "name": "碧水潭",
+    "introduction": "碧水的潭",
+    "popularity": 7.7,
+    "isRestAreaProvided": true,
+    "isToiletProvided": true
+  }
+}

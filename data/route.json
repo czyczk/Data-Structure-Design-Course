@@ -1,0 +1,323 @@
+{
+  "北门": {
+    "first": {
+      "next": {
+        "data": {
+          "destination": "仙云石",
+          "distance": 8.0
+        }
+      },
+      "data": {
+        "destination": "狮子山",
+        "distance": 9.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "仙云石",
+        "distance": 8.0
+      }
+    },
+    "length": 2
+  },
+  "狮子山": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "飞流瀑",
+            "distance": 6.0
+          }
+        },
+        "data": {
+          "destination": "一线天",
+          "distance": 7.0
+        }
+      },
+      "data": {
+        "destination": "北门",
+        "distance": 9.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "飞流瀑",
+        "distance": 6.0
+      }
+    },
+    "length": 3
+  },
+  "仙云石": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "九曲桥",
+            "distance": 5.0
+          }
+        },
+        "data": {
+          "destination": "仙武湖",
+          "distance": 4.0
+        }
+      },
+      "data": {
+        "destination": "北门",
+        "distance": 8.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "九曲桥",
+        "distance": 5.0
+      }
+    },
+    "length": 3
+  },
+  "一线天": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "花卉园",
+            "distance": 10.0
+          }
+        },
+        "data": {
+          "destination": "观云台",
+          "distance": 11.0
+        }
+      },
+      "data": {
+        "destination": "狮子山",
+        "distance": 7.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "花卉园",
+        "distance": 10.0
+      }
+    },
+    "length": 3
+  },
+  "飞流瀑": {
+    "first": {
+      "next": {
+        "data": {
+          "destination": "观云台",
+          "distance": 3.0
+        }
+      },
+      "data": {
+        "destination": "狮子山",
+        "distance": 6.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "观云台",
+        "distance": 3.0
+      }
+    },
+    "length": 2
+  },
+  "仙武湖": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "碧水潭",
+            "distance": 20.0
+          }
+        },
+        "data": {
+          "destination": "九曲桥",
+          "distance": 7.0
+        }
+      },
+      "data": {
+        "destination": "仙云石",
+        "distance": 4.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "碧水潭",
+        "distance": 20.0
+      }
+    },
+    "length": 3
+  },
+  "九曲桥": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "朝日峰",
+            "distance": 20.0
+          }
+        },
+        "data": {
+          "destination": "仙武湖",
+          "distance": 7.0
+        }
+      },
+      "data": {
+        "destination": "仙云石",
+        "distance": 5.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "朝日峰",
+        "distance": 20.0
+      }
+    },
+    "length": 3
+  },
+  "观云台": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "红叶亭",
+            "distance": 15.0
+          }
+        },
+        "data": {
+          "destination": "飞流瀑",
+          "distance": 3.0
+        }
+      },
+      "data": {
+        "destination": "一线天",
+        "distance": 11.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "红叶亭",
+        "distance": 15.0
+      }
+    },
+    "length": 3
+  },
+  "花卉园": {
+    "first": {
+      "next": {
+        "data": {
+          "destination": "红叶亭",
+          "distance": 9.0
+        }
+      },
+      "data": {
+        "destination": "一线天",
+        "distance": 10.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "红叶亭",
+        "distance": 9.0
+      }
+    },
+    "length": 2
+  },
+  "红叶亭": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "朝日峰",
+            "distance": 10.0
+          }
+        },
+        "data": {
+          "destination": "花卉园",
+          "distance": 9.0
+        }
+      },
+      "data": {
+        "destination": "观云台",
+        "distance": 15.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "朝日峰",
+        "distance": 10.0
+      }
+    },
+    "length": 3
+  },
+  "观天台": {
+    "first": {
+      "data": {
+        "destination": "碧水潭",
+        "distance": 16.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "碧水潭",
+        "distance": 16.0
+      }
+    },
+    "length": 1
+  },
+  "碧水潭": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "朝日峰",
+            "distance": 17.0
+          }
+        },
+        "data": {
+          "destination": "仙武湖",
+          "distance": 20.0
+        }
+      },
+      "data": {
+        "destination": "观天台",
+        "distance": 16.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "朝日峰",
+        "distance": 17.0
+      }
+    },
+    "length": 3
+  },
+  "朝日峰": {
+    "first": {
+      "next": {
+        "next": {
+          "data": {
+            "destination": "九曲桥",
+            "distance": 20.0
+          }
+        },
+        "data": {
+          "destination": "红叶亭",
+          "distance": 10.0
+        }
+      },
+      "data": {
+        "destination": "碧水潭",
+        "distance": 17.0
+      }
+    },
+    "last": {
+      "data": {
+        "destination": "九曲桥",
+        "distance": 20.0
+      }
+    },
+    "length": 3
+  }
+}

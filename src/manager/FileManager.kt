@@ -1,7 +1,9 @@
 package manager
 
 import com.google.gson.GsonBuilder
+import dataStructure.LinkedList
 import model.Spot
+import model.Vector
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -11,7 +13,7 @@ class FileManager {
         private val directory = "data"
         private val spotFilename = directory + "/spot.json"
         private val routeFilename = directory + "/route.json"
-        private val passwordFilename = directory + "password.txt"
+        private val passwordFilename = directory + "/password.txt"
         private val gson = GsonBuilder().setPrettyPrinting().create()
 
         /**
@@ -26,21 +28,27 @@ class FileManager {
         // 读取所有景点
         private fun loadAllSpots() {
             // 文件不存在则退出
-            if (!File(spotFilename).exists())
+            val file = File(spotFilename)
+            if (!file.exists())
                 return
             // 读取
-            val reader = StringReader(spotFilename)
-            gson.fromJson<MutableMap<String, Spot>>(reader, SpotManager.spotMap.javaClass)
+            val reader = file.bufferedReader()
+            SpotManager.spotMap =
+                    gson.fromJson<MutableMap<String, Spot>>(reader, SpotManager.spotMap.javaClass)
+            reader.close()
         }
 
         // 读取所有线路
         private fun loadAllRoutes() {
             // 文件不存在则退出
-            if (!File(routeFilename).exists())
+            val file = File(routeFilename)
+            if (!file.exists())
                 return
             // 读取
-            val reader = StringReader(spotFilename)
-            gson.fromJson<MutableMap<String, Spot>>(reader, RouteManager.routeMap.javaClass)
+            val reader = file.bufferedReader()
+            RouteManager.routeMap =
+                    gson.fromJson<MutableMap<String, LinkedList<Vector>>>(reader, RouteManager.routeMap.javaClass)
+            reader.close()
         }
 
         // 读取密码
@@ -51,6 +59,7 @@ class FileManager {
             // 读取
             val reader = BufferedReader(FileReader(passwordFilename))
             val password = reader.readText()
+            reader.close()
             PasswordManager.update(password)
         }
 

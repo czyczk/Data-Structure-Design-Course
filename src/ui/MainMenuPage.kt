@@ -1,5 +1,6 @@
 package ui
 
+import ui.function.ScenicSpotManagementPage
 import util.UiUtil
 
 /**
@@ -108,9 +109,7 @@ class MainMenuPage(val identity: LoginOption) {
             // BACK_TO_LOGIN_PAGE: break the loop in showMenu() and return to the Login Page
             MainMenuOption.BACK_TO_LOGIN_PAGE -> return true
             // SCENIC_SPOT_MANAGEMENT
-            MainMenuOption.SCENIC_SPOT_MANAGEMENT -> {
-
-            }
+            MainMenuOption.SCENIC_SPOT_MANAGEMENT -> ScenicSpotManagementPage.run()
         }
         return false
     }
