@@ -1,9 +1,12 @@
 package manager
 
 import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import dataStructure.LinkedList
+import model.Route
 import model.Spot
 import model.Vector
+import util.Util
 import java.io.*
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -46,8 +49,15 @@ class FileManager {
                 return
             // 读取
             val reader = file.bufferedReader()
-            RouteManager.routeMap =
-                    gson.fromJson<MutableMap<String, LinkedList<Vector>>>(reader, RouteManager.routeMap.javaClass)
+            val tempRouteMap: MutableMap<String, List<Vector>>
+            // (fuck generic type erasure)
+            tempRouteMap = gson.fromJson(reader, Util.genericType<MutableMap<String, List<Vector>>>())
+            tempRouteMap.forEach { t, u ->
+                u.forEach {
+                    val route = Route(t, it.destination, it.distance)
+                    RouteManager.add(route, true)
+                }
+            }
             reader.close()
         }
 
@@ -74,7 +84,18 @@ class FileManager {
          * 保存所有线路
          */
         fun saveAllRoutes() {
-            saveTextToFile(gson.toJson(RouteManager.routeMap), routeFilename)
+            // 整理所有线路为不含重复线路的 map<景点名, 非链表列表>
+            val tempRouteMap = mutableMapOf<String, List<Vector>>()
+            RouteManager.routeMap.forEach { t, u ->
+                val tempList = mutableListOf<Vector>()
+                u.forEach {
+                    if (!tempRouteMap.containsKey(it.destination))
+                        tempList.add(it)
+                }
+                tempRouteMap.put(t, tempList)
+            }
+
+            saveTextToFile(gson.toJson(tempRouteMap), routeFilename)
         }
 
         /**

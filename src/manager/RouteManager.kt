@@ -13,9 +13,11 @@ class RouteManager {
          * 添加线路，需要检查线路是否存在。
          * @param route 要添加的线路
          */
-        fun add(route: Route) {
+        fun add(route: Route, bypassValidityCheck: Boolean = false) {
+            if (!bypassValidityCheck)
             // 若线路存在，则返回
-            if (query(route.name1, route.name2) != null) return
+                if (query(route.name1, route.name2) != null)
+                    return
 
             // 若 routeMap 中该任何景点为 null 则创建一个邻接链表
             if (!routeMap.containsKey(route.name1))
