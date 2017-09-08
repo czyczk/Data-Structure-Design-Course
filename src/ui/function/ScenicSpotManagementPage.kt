@@ -7,7 +7,7 @@ import util.UiUtil
 
 class ScenicSpotManagementPage {
     companion object {
-        val optionList = mutableMapOf<Int, ScenicSpotManagementOption>()
+        private val optionList = mutableMapOf<Int, ScenicSpotManagementOption>()
         init {
             val availableOptions = arrayOf(
                     ScenicSpotManagementOption.EXIT,
