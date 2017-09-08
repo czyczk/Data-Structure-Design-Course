@@ -108,17 +108,17 @@ class ScenicSpotManagementPage {
 
                 // 欢迎度
                 println(UiUtil.getString("enterPopularity"))
-                val popularity = enterDouble(false)
+                val popularity = UiUtil.enterDouble(false)
 
                 // 有无休息区
                 print(UiUtil.getString("isRestAreaProvided"))
                 println(UiUtil.getString("yesOrNo"))
-                val isRestAreaProvided = enterChoice()
+                val isRestAreaProvided = UiUtil.enterChoice()
 
                 // 有无厕所
                 print(UiUtil.getString("isToiletProvided"))
                 println(UiUtil.getString("yesOrNo"))
-                val isToiletProvided = enterChoice()
+                val isToiletProvided = UiUtil.enterChoice()
 
                 // 根据以上信息生成 Spot 对象并加入 pendingList
                 val spot = Spot(name, introduction, popularity, isRestAreaProvided, isToiletProvided)
@@ -127,7 +127,7 @@ class ScenicSpotManagementPage {
                 // 询问是否继续添加
                 print(UiUtil.getString("isContinueAdding"))
                 println(UiUtil.getString("yesOrNo"))
-                val isContinueAdding = enterChoice()
+                val isContinueAdding = UiUtil.enterChoice()
                 if (!isContinueAdding)
                     break
             }
@@ -143,7 +143,7 @@ class ScenicSpotManagementPage {
                 // 询问是否保存
                 print(UiUtil.getString("areChangesToBeSaved"))
                 println(UiUtil.getString("yesOrNo"))
-                val isSave = enterChoice()
+                val isSave = UiUtil.enterChoice()
                 if (isSave) {
                     pendingList.forEach { SpotManager.add(it) }
                     FileManager.saveAllSpots()
@@ -256,7 +256,7 @@ class ScenicSpotManagementPage {
                 var name = curSpot.name
                 print(UiUtil.getString("isNameToBeChanged"))
                 println(UiUtil.getString("yesOrNo"))
-                if (enterChoice()) {
+                if (UiUtil.enterChoice()) {
                     println(UiUtil.getString("enterNameOfSpot"))
 
                     // 检查是否重名
@@ -285,7 +285,7 @@ class ScenicSpotManagementPage {
                 var introduction = curSpot.introduction
                 print(UiUtil.getString("isIntroductionToBeChanged"))
                 println(UiUtil.getString("yesOrNo"))
-                if (enterChoice()) {
+                if (UiUtil.enterChoice()) {
                     println(UiUtil.getString("enterIntroduction"))
                     introduction = readLine()!!
                 }
@@ -294,23 +294,23 @@ class ScenicSpotManagementPage {
                 var popularity = curSpot.popularity
                 print(UiUtil.getString("isPopularityToBeChanged"))
                 println(UiUtil.getString("yesOrNo"))
-                if (enterChoice()) {
+                if (UiUtil.enterChoice()) {
                     println(UiUtil.getString("enterPopularity"))
-                    popularity = enterDouble(false)
+                    popularity = UiUtil.enterDouble(false)
                 }
 
                 // 是否更改休息区设置
                 var isRestAreaProvided = curSpot.isRestAreaProvided
                 print(UiUtil.getString("isRestAreaToBeToggled"))
                 println(UiUtil.getString("yesOrNo"))
-                if (enterChoice())
+                if (UiUtil.enterChoice())
                     isRestAreaProvided = !isRestAreaProvided
 
                 // 是否更改厕所设置
                 var isToiletProvided = curSpot.isToiletProvided
                 print(UiUtil.getString("isToiletToBeToggled"))
                 println(UiUtil.getString("yesOrNo"))
-                if (enterChoice())
+                if (UiUtil.enterChoice())
                     isToiletProvided = !isToiletProvided
 
                 // 检查是否被更改，被更改则加入 pendingList，或覆盖 pendingList 中上一次修改
@@ -321,7 +321,7 @@ class ScenicSpotManagementPage {
                 // 询问是否继续修改
                 print(UiUtil.getString("isContinueModifying"))
                 println(UiUtil.getString("yesOrNo"))
-                val isContinueModifying = enterChoice()
+                val isContinueModifying = UiUtil.enterChoice()
                 if (!isContinueModifying)
                     break
             }
@@ -332,16 +332,16 @@ class ScenicSpotManagementPage {
                 ordinal = 1
                 pendingList.forEach { t, u ->
                     if (t == u.name) {
-                        println("\t${ordinal++}. $u")
+                        println("\n${ordinal++}. $u")
                     } else {
-                        println("\t${ordinal++}. $t -> $u")
+                        println("\n${ordinal++}. $t -> $u")
                     }
                 }
 
                 // 询问是否保存
                 print(UiUtil.getString("areChangesToBeSaved"))
                 println(UiUtil.getString("yesOrNo"))
-                val isSave = enterChoice()
+                val isSave = UiUtil.enterChoice()
                 if (isSave) {
                     pendingList.forEach { t, u ->
                         SpotManager.update(t, u)
@@ -431,7 +431,7 @@ class ScenicSpotManagementPage {
                 // 询问是否继续修改
                 print(UiUtil.getString("isContinueRemoving"))
                 println(UiUtil.getString("yesOrNo"))
-                val isContinueModifying = enterChoice()
+                val isContinueModifying = UiUtil.enterChoice()
                 if (!isContinueModifying)
                     break
             }
@@ -447,7 +447,7 @@ class ScenicSpotManagementPage {
                 // 询问是否保存
                 print(UiUtil.getString("areChangesToBeSaved"))
                 println(UiUtil.getString("yesOrNo"))
-                val isSave = enterChoice()
+                val isSave = UiUtil.enterChoice()
                 if (isSave) {
                     pendingList.forEach {
                         SpotManager.remove(it)
@@ -457,40 +457,7 @@ class ScenicSpotManagementPage {
             }
         }
 
-        private fun enterDouble(isNegativeAllowed: Boolean = true): Double {
-            var pass: Boolean
-            var value = 0.0
-            do {
-                pass = true
-                try {
-                    value = readLine()!!.toDouble()
-                    if (!isNegativeAllowed && value < 0)
-                        throw IllegalArgumentException(UiUtil.getString("cannotBeNegative"))
-                } catch (e: NumberFormatException) {
-                    System.err.println(UiUtil.getString("invalidResponse"))
-                    pass = false
-                } catch (e: IllegalArgumentException) {
-                    System.err.println(e.message)
-                    pass = false
-                }
-            } while (!pass)
-            return value
-        }
 
-        private fun enterChoice(): Boolean {
-            var pass: Boolean
-            var choice = false
-            do {
-                pass = true
-                try {
-                    choice = UiUtil.parseInputToChoice(readLine()!!)
-                } catch (e: IllegalArgumentException) {
-                    System.err.println(UiUtil.getString("invalidResponse"))
-                    pass = false
-                }
-            } while (!pass)
-            return choice
-        }
 
         private fun checkIfAnySpotIsAvailable(): Boolean {
             if (SpotManager.spotMap.count() == 0) {

@@ -12,6 +12,11 @@ import java.util.*
  */
 class UiUtil {
     companion object {
+
+        /*
+         * 字符串资源相关
+         */
+
         // UI 字符串资源文件
         private val bundle = ResourceBundle.getBundle("UiString")
 
@@ -26,37 +31,6 @@ class UiUtil {
             else convertToUTF8(bundle.getString(key))
         }
         fun getString(key: String) = getString(key, false)
-
-        /**
-         * 在登录界面和菜单界面显示标题。
-         */
-        fun showTitle() {
-            println(UiUtil.getString("applicationTitleWithDecoration"))
-        }
-
-        fun verifyAdministratorIdentity(): Boolean {
-            val input = readLine()
-            // TODO Verify the password.
-            return input == "password"
-        }
-
-        /**
-         * 将用户输入转换为 boolean 值。
-         * @param resp 可转换为 true 的值有“Y”、“yes”、“true”；可转换为 false 的值有“N”、“no”、“false”。不区分大小写。
-         * @return true 或 false
-         */
-        fun parseInputToChoice(resp: String): Boolean {
-            if (resp.equals("Y", true) ||
-                    resp.equals("yes", true) ||
-                    resp.equals("true", true))
-                return true
-            else if (resp.equals("N", true) ||
-                    resp.equals("no", true)||
-                    resp.equals("false", true))
-                return false
-            else
-                throw IllegalArgumentException(UiUtil.getString("notInvalidInputForBoolean"))
-        }
 
         /**
          * 转换全大写为驼峰大小写。
@@ -93,5 +67,96 @@ class UiUtil {
         private fun convertToUTF8(str: String): String {
             return convertCharset(str, Charset.forName("ISO-8859-1"), Charset.forName("UTF-8"))
         }
+
+
+
+
+
+
+        /**
+         * 在登录界面和菜单界面显示标题。
+         */
+        fun showTitle() {
+            println(UiUtil.getString("applicationTitleWithDecoration"))
+        }
+
+
+
+
+
+
+        /*
+         * 接收用户回应相关。
+         */
+
+        fun verifyAdministratorIdentity(): Boolean {
+            val input = readLine()
+            // TODO Verify the password.
+            return input == "password"
+        }
+
+        /**
+         * 将用户输入转换为 boolean 值。
+         * @param resp 可转换为 true 的值有“Y”、“yes”、“true”；可转换为 false 的值有“N”、“no”、“false”。不区分大小写。
+         * @return true 或 false
+         */
+        private fun parseInputToChoice(resp: String): Boolean {
+            return if (resp.equals("Y", true) ||
+                    resp.equals("yes", true) ||
+                    resp.equals("true", true))
+                true
+            else if (resp.equals("N", true) ||
+                    resp.equals("no", true)||
+                    resp.equals("false", true))
+                false
+            else
+                throw IllegalArgumentException(UiUtil.getString("notInvalidInputForBoolean"))
+        }
+
+        /**
+         * 要求一个“是”或“否”的选择。不合法的输入将导致重试。
+         * @return true 或 false
+         */
+        fun enterChoice(): Boolean {
+            var pass: Boolean
+            var choice = false
+            do {
+                pass = true
+                try {
+                    choice = UiUtil.parseInputToChoice(readLine()!!)
+                } catch (e: IllegalArgumentException) {
+                    System.err.println(UiUtil.getString("invalidResponse"))
+                    pass = false
+                }
+            } while (!pass)
+            return choice
+        }
+
+        /**
+         * 要求一个 double 型。不合法的输入将导致重试。
+         * @param isNegativeAllowed 允许负数
+         * @return Double 型数值
+         */
+        fun enterDouble(isNegativeAllowed: Boolean = true): Double {
+            var pass: Boolean
+            var value = 0.0
+            do {
+                pass = true
+                try {
+                    value = readLine()!!.toDouble()
+                    if (!isNegativeAllowed && value < 0)
+                        throw IllegalArgumentException(UiUtil.getString("cannotBeNegative"))
+                } catch (e: NumberFormatException) {
+                    System.err.println(UiUtil.getString("invalidResponse"))
+                    pass = false
+                } catch (e: IllegalArgumentException) {
+                    System.err.println(e.message)
+                    pass = false
+                }
+            } while (!pass)
+            return value
+        }
+
+
     }
 }
