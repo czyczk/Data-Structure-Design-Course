@@ -111,17 +111,17 @@ class ScenicSpotManagementPage {
                 val popularity = enterDouble(false)
 
                 // 有无休息区
-                print(UiUtil.getString("isRestAreaAvailable"))
+                print(UiUtil.getString("isRestAreaProvided"))
                 println(UiUtil.getString("yesOrNo"))
-                val isRestAreaAvailable = enterChoice()
+                val isRestAreaProvided = enterChoice()
 
                 // 有无厕所
-                print(UiUtil.getString("isToiletAvailable"))
+                print(UiUtil.getString("isToiletProvided"))
                 println(UiUtil.getString("yesOrNo"))
-                val isToiletAreaAvailable = enterChoice()
+                val isToiletProvided = enterChoice()
 
                 // 根据以上信息生成 Spot 对象并加入 pendingList
-                val spot = Spot(name, introduction, popularity, isRestAreaAvailable, isToiletAreaAvailable)
+                val spot = Spot(name, introduction, popularity, isRestAreaProvided, isToiletProvided)
                 pendingList.add(spot)
 
                 // 询问是否继续添加
@@ -209,22 +209,34 @@ class ScenicSpotManagementPage {
                 availableSpots.forEach { t, u ->
                     val name: String
                     if (pendingList.containsKey(u.name))
-                        name = pendingList[u.name]!!.name + "*" // 显示新名（带 * 号）
+                        name = pendingList[u.name]!!.name + " *" // 显示新名（带 * 号）
                     else
                         name = u.name // 没有被更改则显示原名
                     println("\t$t. $name")
                 }
 
+                print(UiUtil.getString("selectAnOption"))
+                println(UiUtil.getString("enterZeroToExit"))
+
                 // 等待并检验用户回应
                 var curSpot: Spot? = null
+                var curName: String? = null // curSpot 在 availableSpots 或 pendingList 中对应的 key 名
                 var pass: Boolean
+                var isBreak = false
                 do {
                     try {
                         pass = true
-                        val resp = readLine()!!.toInt()
-                        if (!availableSpots.containsKey(resp))
+                        val resp = readLine()!!
+                        // 0 以退出
+                        if (resp == "0") {
+                            isBreak = true
+                            break
+                        }
+                        val respInt = resp.toInt()
+                        if (!availableSpots.containsKey(respInt))
                             error("")
-                        curSpot = availableSpots[resp]!! // availableSpots 中序号对应的实体为待更改的景点
+                        curSpot = availableSpots[respInt]!! // availableSpots 中序号对应的实体为待更改的景点
+                        curName = curSpot.name
                         if (pendingList.containsKey(curSpot.name))
                             curSpot = pendingList[curSpot.name]!! // 若该景点已被修改过则在 pendingList 中找
                     } catch (e: Exception) {
@@ -233,26 +245,211 @@ class ScenicSpotManagementPage {
                     }
                 } while (!pass)
 
+                if (isBreak)
+                    break
+
                 // 显示景点详情
                 curSpot as Spot
+                curName as String
                 println(curSpot)
 
                 // 询问是否换名
+                var name = curSpot.name
                 print(UiUtil.getString("isNameToBeChanged"))
                 println(UiUtil.getString("yesOrNo"))
+                if (enterChoice()) {
+                    println(UiUtil.getString("enterNameOfSpot"))
 
-                /*
-                 * TODO
-                 * 换名、换简介、换欢迎度、换休息区、换厕所
-                 * 看和 curSpot 一不一样，不一样加 pendingList
-                 * 问继不继续
-                 * 问存不存
-                 */
+                    // 检查是否重名
+                    do {
+                        pass = true
+                        name = readLine()!!
+                        if (name != curName) {
+                            if (SpotManager.spotMap.containsKey(name))
+                                pass = false
+                            else {
+                                for (s in pendingList.values) {
+                                    if (name == s.name)
+                                        pass = false
+                                }
+                            }
+                        }
+                        if (!pass) {
+                            System.err.println(UiUtil.getString("nameIsDuplicated"))
+                        }
+                    } while (!pass)
+                }
+
+                // 询问是否换简介
+                var introduction = curSpot.introduction
+                print(UiUtil.getString("isIntroductionToBeChanged"))
+                println(UiUtil.getString("yesOrNo"))
+                if (enterChoice()) {
+                    println(UiUtil.getString("enterIntroduction"))
+                    introduction = readLine()!!
+                }
+
+                // 询问是否换欢迎度
+                var popularity = curSpot.popularity
+                print(UiUtil.getString("isPopularityToBeChanged"))
+                println(UiUtil.getString("yesOrNo"))
+                if (enterChoice()) {
+                    println(UiUtil.getString("enterPopularity"))
+                    popularity = enterDouble(false)
+                }
+
+                // 是否更改休息区设置
+                var isRestAreaProvided = curSpot.isRestAreaProvided
+                print(UiUtil.getString("isRestAreaToBeToggled"))
+                println(UiUtil.getString("yesOrNo"))
+                if (enterChoice())
+                    isRestAreaProvided = !isRestAreaProvided
+
+                // 是否更改厕所设置
+                var isToiletProvided = curSpot.isToiletProvided
+                print(UiUtil.getString("isToiletToBeToggled"))
+                println(UiUtil.getString("yesOrNo"))
+                if (enterChoice())
+                    isToiletProvided = !isToiletProvided
+
+                // 检查是否被更改，被更改则加入 pendingList，或覆盖 pendingList 中上一次修改
+                val newSpot = Spot(name, introduction, popularity, isRestAreaProvided, isToiletProvided)
+                if (curSpot != newSpot)
+                    pendingList.put(curName, newSpot)
+
+                // 询问是否继续修改
+                print(UiUtil.getString("isContinueModifying"))
+                println(UiUtil.getString("yesOrNo"))
+                val isContinueModifying = enterChoice()
+                if (!isContinueModifying)
+                    break
+            }
+
+            // 显示所有已修改待确认的景点
+            if (pendingList.isNotEmpty()) {
+                println(UiUtil.getString("scenicSpotsToBeModified"))
+                ordinal = 1
+                pendingList.forEach { t, u ->
+                    println("\t${ordinal++}. $u")
+                }
+
+                // 询问是否保存
+                print(UiUtil.getString("areChangesToBeSaved"))
+                println(UiUtil.getString("yesOrNo"))
+                val isSave = enterChoice()
+                if (isSave) {
+                    pendingList.forEach { t, u ->
+                        SpotManager.update(t, u)
+                    }
+                    FileManager.saveAllSpots()
+                }
             }
         }
 
         private fun removeScenicSpots() {
+            println(UiUtil.getString("removeScenicSpots")) // 显示功能标题
 
+            // 检查是否有景点可以删除，不可以则返回上级
+            val spotIsAvailable = checkIfAnySpotIsAvailable()
+            if (!spotIsAvailable)
+                return
+
+
+            val pendingList = mutableListOf<String>() // 待用户确认删除的景点列表
+            val availableSpots = mutableMapOf<Int, String>() // 将 spotMap 中信息拷贝至此，该列表旧名不变 <序号, 名称>
+            // 填充 availableSpots
+            var ordinal = 1
+            SpotManager.spotMap.values.forEach { availableSpots.put(ordinal++, it.name) }
+
+            while (true) {
+                // 显示景点总数
+                print(
+                        String.format(
+                                UiUtil.getString("totalNumberOfSpots"),
+                                SpotManager.spotMap.count()
+                        )
+                )
+                // 显示待确认景点数
+                if (pendingList.isEmpty())
+                    println()
+                else {
+                    println(
+                            String.format(
+                                    UiUtil.getString("totalNumberOfPendingSpots"),
+                                    pendingList.count()
+                            )
+                    )
+                }
+
+                // 显示所有景点名称
+                availableSpots.forEach { t, u ->
+                    var name = u
+                    if (pendingList.contains(u))
+                        name += " -" // 若为待删除状态则带 - 号
+                    println("\t$t. $name")
+                }
+
+                print(UiUtil.getString("selectAnOption"))
+                println(UiUtil.getString("enterZeroToExit"))
+
+                // 等待并检验用户回应
+                var pass: Boolean
+                var isBreak = false
+                do {
+                    try {
+                        pass = true
+                        val resp = readLine()!!
+                        // 0 以退出
+                        if (resp == "0") {
+                            isBreak = true
+                            break
+                        }
+                        val respInt = resp.toInt()
+                        if (!availableSpots.containsKey(respInt))
+                            throw IllegalStateException()
+                        val nameOfSpotToBeRemoved = availableSpots[respInt]!! // availableSpots 中序号对应的景点名称
+                        if (pendingList.contains(nameOfSpotToBeRemoved))
+                            throw UnsupportedOperationException()
+                        pendingList.add(nameOfSpotToBeRemoved)
+                    } catch (e: Exception) {
+                        if (e is IllegalStateException || e is NumberFormatException)
+                            System.err.println(UiUtil.getString("invalidResponse"))
+                        else if (e is UnsupportedOperationException)
+                            System.err.println(UiUtil.getString("spotHasBeenMarkedToBeRemoved"))
+                        pass = false
+                    }
+                } while (!pass)
+
+                if (isBreak)
+                    break
+
+                // 询问是否继续修改
+                print(UiUtil.getString("isContinueRemoving"))
+                println(UiUtil.getString("yesOrNo"))
+                val isContinueModifying = enterChoice()
+                if (!isContinueModifying)
+                    break
+            }
+
+            // 显示所有待确认删除的景点
+            if (pendingList.isNotEmpty()) {
+                println(UiUtil.getString("scenicSpotsToBeRemoved"))
+                ordinal = 1
+                pendingList.forEach {
+                    println("\t${ordinal++}. $it")
+                }
+
+                // 询问是否保存
+                print(UiUtil.getString("areChangesToBeSaved"))
+                println(UiUtil.getString("yesOrNo"))
+                val isSave = enterChoice()
+                if (isSave) {
+                    pendingList.forEach {
+                        SpotManager.remove(it)
+                    }
+                    FileManager.saveAllSpots()
+                }
+            }
         }
 
         private fun enterDouble(isNegativeAllowed: Boolean = true): Double {
