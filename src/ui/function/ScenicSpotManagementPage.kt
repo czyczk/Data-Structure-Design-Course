@@ -207,11 +207,10 @@ class ScenicSpotManagementPage {
 
                 // 显示所有景点名称（按改名后名称显示）
                 availableSpots.forEach { t, u ->
-                    val name: String
-                    if (pendingList.containsKey(u.name))
-                        name = pendingList[u.name]!!.name + " *" // 显示新名（带 * 号）
+                    val name = if (pendingList.containsKey(u.name))
+                        pendingList[u.name]!!.name + " *" // 显示新名（带 * 号）
                     else
-                        name = u.name // 没有被更改则显示原名
+                        u.name // 没有被更改则显示原名
                     println("\t$t. $name")
                 }
 
@@ -269,8 +268,10 @@ class ScenicSpotManagementPage {
                                 pass = false
                             else {
                                 for (s in pendingList.values) {
-                                    if (name == s.name)
+                                    if (name == s.name) {
                                         pass = false
+                                        break
+                                    }
                                 }
                             }
                         }
@@ -330,7 +331,11 @@ class ScenicSpotManagementPage {
                 println(UiUtil.getString("scenicSpotsToBeModified"))
                 ordinal = 1
                 pendingList.forEach { t, u ->
-                    println("\t${ordinal++}. $u")
+                    if (t == u.name) {
+                        println("\t${ordinal++}. $u")
+                    } else {
+                        println("\t${ordinal++}. $t -> $u")
+                    }
                 }
 
                 // 询问是否保存
