@@ -42,16 +42,20 @@ class UiUtil {
 
         /**
          * 将用户输入转换为 boolean 值。
-         * @param resp 可转换为 true 的值有“Y”、“true”；可转换为 false 的值有“N”、“false”。不区分大小写。
+         * @param resp 可转换为 true 的值有“Y”、“yes”、“true”；可转换为 false 的值有“N”、“no”、“false”。不区分大小写。
          * @return true 或 false
          */
         fun parseInputToChoice(resp: String): Boolean {
-            if (resp.equals("Y", true) || resp.equals("true", true))
+            if (resp.equals("Y", true) ||
+                    resp.equals("yes", true) ||
+                    resp.equals("true", true))
                 return true
-            else if (resp.equals("N", true) || resp.equals("false", true))
+            else if (resp.equals("N", true) ||
+                    resp.equals("no", true)||
+                    resp.equals("false", true))
                 return false
             else
-                throw IllegalArgumentException("Not invalid input for a boolean value.")
+                throw IllegalArgumentException(UiUtil.getString("notInvalidInputForBoolean"))
         }
 
         /**
