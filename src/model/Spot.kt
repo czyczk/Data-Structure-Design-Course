@@ -19,7 +19,7 @@ data class Spot(
 
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append(UiUtil.getString("Spot")).append(" - ").appendln(name)
+        sb.appendln(name)
         sb.append('\t').append(UiUtil.getString("Spot.introduction")).appendln(introduction)
         sb.append('\t').append(UiUtil.getString("Spot.popularity")).appendln(popularity)
         sb.append('\t').append(UiUtil.getString("Spot.isRestAreaProvided")).appendln(UiUtil.getString(isRestAreaProvided.toString()))
