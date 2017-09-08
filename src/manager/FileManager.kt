@@ -37,7 +37,7 @@ class FileManager {
             // 读取
             val reader = file.bufferedReader()
             SpotManager.spotMap =
-                    gson.fromJson<MutableMap<String, Spot>>(reader, SpotManager.spotMap.javaClass)
+                    gson.fromJson(reader, Util.genericType<MutableMap<String, Spot>>())
             reader.close()
         }
 
