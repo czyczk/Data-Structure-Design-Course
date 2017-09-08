@@ -1,5 +1,6 @@
 package ui
 
+import ui.function.QueryScenicSpot
 import ui.function.ScenicSpotManagementPage
 import util.UiUtil
 
@@ -9,7 +10,7 @@ import util.UiUtil
  * @param identity 用户的身份。依此决定是否允许访问管理员功能。
  * Created by Zenas Chen (czyczk) on 2017-8-30.
  */
-class MainMenuPage(val identity: LoginOption) {
+class MainMenuPage(private val identity: LoginOption) {
     // 存储 操作序号 -> 功能枚举值 的键值对，作为选项列表
     private val optionList: Map<Int, MainMenuOption>
 
@@ -110,6 +111,10 @@ class MainMenuPage(val identity: LoginOption) {
             MainMenuOption.BACK_TO_LOGIN_PAGE -> return true
             // SCENIC_SPOT_MANAGEMENT
             MainMenuOption.SCENIC_SPOT_MANAGEMENT -> ScenicSpotManagementPage.run()
+            // ROUTE_MANAGEMENT
+            MainMenuOption.ROUTE_MANAGEMENT -> TODO("Pending implementation")
+            // QUERY_SCENIC_SPOT
+            MainMenuOption.QUERY_SCENIC_SPOT -> QueryScenicSpot.run()
         }
         return false
     }
