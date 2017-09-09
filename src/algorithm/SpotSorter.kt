@@ -1,11 +1,14 @@
 package algorithm
 
 import model.Spot
+import java.text.Collator
+import java.util.*
 
 class SpotSorter {
     companion object {
         private val supportedOrderBy = arrayOf(Spot.OrderBy.NAME, Spot.OrderBy.POPULARITY)
         private lateinit var list: MutableList<Spot>
+        private val comparator = Collator.getInstance(Locale.CHINA)
 
         /**
          * 通过快速排序获得排序后的景点列表。
@@ -40,7 +43,7 @@ class SpotSorter {
             while (cursorI != cursorJ) {
                 // 从右往左找比基准小者
                 while (cursorI < cursorJ) {
-                    if (orderBy == Spot.OrderBy.NAME && list[cursorJ].name < ref.name)
+                    if (orderBy == Spot.OrderBy.NAME && comparator.compare(list[cursorJ].name, ref.name) < 0)
                         break
                     else if (orderBy == Spot.OrderBy.POPULARITY && list[cursorJ].popularity < ref.popularity)
                         break
@@ -49,7 +52,7 @@ class SpotSorter {
 
                 // 从左往右找比基准大者
                 while (cursorI < cursorJ) {
-                    if (orderBy == Spot.OrderBy.NAME && list[cursorI].name > ref.name)
+                    if (orderBy == Spot.OrderBy.NAME && comparator.compare(list[cursorJ].name, ref.name) > 0)
                         break
                     else if (orderBy == Spot.OrderBy.POPULARITY && list[cursorI].popularity > ref.popularity)
                         break
