@@ -48,11 +48,7 @@ class ViewScenicSpotMap {
                             val route = RouteManager.query(i.name, j.name)
                             route?.distance ?: 65535.0
                         }
-                        val distanceStr = if (Util.checkIfRoughlyEqualsToInt(distance))
-                            distance.toInt().toString()
-                        else
-                            BigDecimal(distance.toString()).toString()
-                        UiUtil.printStringInFixedWidth(distanceStr, width, false)
+                        UiUtil.printStringInFixedWidth(UiUtil.beautifyDouble(distance), width, false)
                     }
                     println()
                 }

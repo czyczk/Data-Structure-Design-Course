@@ -4,6 +4,10 @@ import model.Spot
 import java.text.Collator
 import java.util.*
 
+/**
+ * 景点排序器
+ * 使用快速排序算法按一定依据排序景点。
+ */
 class SpotSorter {
     companion object {
         private val supportedOrderBy = arrayOf(Spot.OrderBy.NAME, Spot.OrderBy.POPULARITY)
