@@ -1,6 +1,7 @@
 package util
 
 import manager.SpotManager
+import java.math.BigDecimal
 import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Pattern
@@ -122,6 +123,18 @@ class UiUtil {
                 println(result)
             else
                 print(result)
+        }
+
+        /**
+         * Get a string of a Double value in a user-friendly way.
+         * @param number A number of Double
+         * @return A string containing the value of the number in a user-friendly fashion
+         */
+        fun beautifyDouble(number: Double): String {
+            return if (Util.checkIfRoughlyEqualsToInt(number))
+                number.toInt().toString()
+            else
+                BigDecimal(number.toString()).toString()
         }
 
         /**

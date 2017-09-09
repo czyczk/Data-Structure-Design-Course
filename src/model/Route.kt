@@ -1,5 +1,7 @@
 package model
 
+import util.UiUtil
+
 data class Route(var name1: String, var name2: String, var distance: Double) {
     init {
         if (distance < 0) throw IllegalArgumentException()
@@ -16,4 +18,12 @@ data class Route(var name1: String, var name2: String, var distance: Double) {
             return true
         return false
     }
+
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append(name1).append(" -> ").append(name2).append(": ").append(UiUtil.beautifyDouble(distance))
+        return sb.toString()
+    }
+
+
 }

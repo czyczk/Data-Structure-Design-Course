@@ -1,5 +1,6 @@
 package ui
 
+import ui.function.QueryDistance
 import ui.function.QueryScenicSpot
 import ui.function.ScenicSpotManagementPage
 import ui.function.ViewScenicSpotMap
@@ -118,6 +119,8 @@ class MainMenuPage(private val identity: LoginOption) {
             MainMenuOption.QUERY_SCENIC_SPOT -> QueryScenicSpot.run()
             // VIEW_SCENIC_SPOT_MAP
             MainMenuOption.VIEW_SCENIC_SPOT_MAP -> ViewScenicSpotMap.run()
+            // QUERY_DISTANCE
+            MainMenuOption.QUERY_DISTANCE -> QueryDistance.run()
         }
         return false
     }
