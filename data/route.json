@@ -65,6 +65,10 @@
     {
       "destination": "红叶亭",
       "distance": 15.0
+    },
+    {
+      "destination": "碧水潭",
+      "distance": 16.0
     }
   ],
   "花卉园": [
@@ -77,12 +81,6 @@
     {
       "destination": "朝日峰",
       "distance": 10.0
-    }
-  ],
-  "观天台": [
-    {
-      "destination": "碧水潭",
-      "distance": 16.0
     }
   ],
   "碧水潭": [
