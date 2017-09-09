@@ -33,9 +33,10 @@ class QueryScenicSpot {
                 // 等待并检验用户的响应
                 println(UiUtil.getString("selectAnOption"))
                 var option = QueryScenicSpotOption.PLACEHOLDER
-                var pass = true
+                var pass: Boolean
                 do {
                     try {
+                        pass = true
                         val resp = readLine()!!.toInt()
                         if (!optionList.containsKey(resp))
                             error("")
@@ -122,8 +123,12 @@ class QueryScenicSpot {
             )
 
             orderedList.forEachIndexed { index, spot ->
-                println("$index. $spot")
+                println("${index + 1}. $spot")
             }
+
+            // 按 Enter 键以继续
+            println(UiUtil.getString("pressEnterToContinue"))
+            readLine()
         }
     }
 }
