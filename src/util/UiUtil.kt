@@ -2,6 +2,7 @@ package util
 
 import java.nio.charset.Charset
 import java.util.*
+import java.util.regex.Pattern
 
 /**
  * UiUtil
@@ -72,12 +73,42 @@ class UiUtil {
 
 
 
+        /*
+         * 屏幕显示相关
+         */
 
         /**
          * 在登录界面和菜单界面显示标题。
          */
         fun showTitle() {
             println(UiUtil.getString("applicationTitleWithDecoration"))
+        }
+
+        /**
+         * 打印错误消息并 sleep 10 毫秒。
+         */
+        fun printErrorMessage(message: String) {
+            System.err.println(message)
+            Thread.sleep(10)
+        }
+
+        fun printStringInFixedWidth(str: String, width: Int, newLine: Boolean = true) {
+            // 最小宽度为 str 字符数量 + 全角字符的个数
+            var desiredWidth = str.length
+            val pattern = Pattern.compile("[^\\x00-\\xff]*")
+            val matcher = pattern.matcher(str)
+            matcher.find()
+            val numFullWidthChars = matcher.group().count()
+            desiredWidth += numFullWidthChars
+
+            if (width < desiredWidth)
+                throw IllegalArgumentException("widthIsSmallerThanDesired")
+
+            val result = String.format("%-${width - numFullWidthChars}s", str)
+            if (newLine)
+                println(result)
+            else
+                print(result)
         }
 
 
