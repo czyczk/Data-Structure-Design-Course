@@ -27,5 +27,7 @@ data class Spot(
         return sb.toString()
     }
 
-
+    enum class OrderBy {
+        NAME, POPULARITY
+    }
 }

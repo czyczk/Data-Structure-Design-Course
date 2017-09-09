@@ -1,6 +1,8 @@
 package ui.function
 
+import algorithm.SpotSorter
 import manager.SpotManager
+import model.Spot
 import util.UiUtil
 
 class QueryScenicSpot {
@@ -9,8 +11,10 @@ class QueryScenicSpot {
         init {
             val availableOptions = arrayOf(
                     QueryScenicSpotOption.EXIT,
-                    QueryScenicSpotOption.IN_NAME_ONLY,
-                    QueryScenicSpotOption.IN_NAME_AND_INTRODUCTION
+                    QueryScenicSpotOption.SEARCH_IN_NAME_ONLY,
+                    QueryScenicSpotOption.SEARCH_IN_NAME_AND_INTRODUCTION,
+                    QueryScenicSpotOption.SHOW_SPOTS_ORDERED_BY_NAME,
+                    QueryScenicSpotOption.SHOW_SPOTS_ORDERED_BY_POPULARITY
             )
             var ordinal = 0
             availableOptions.forEach {
@@ -54,9 +58,9 @@ class QueryScenicSpot {
                 QueryScenicSpotOption.PLACEHOLDER ->
                     throw IllegalStateException(UiUtil.getString("optionIsPlaceholder"))
                 QueryScenicSpotOption.EXIT -> return true
-                QueryScenicSpotOption.IN_NAME_ONLY, QueryScenicSpotOption.IN_NAME_AND_INTRODUCTION ->
+                QueryScenicSpotOption.SEARCH_IN_NAME_ONLY, QueryScenicSpotOption.SEARCH_IN_NAME_AND_INTRODUCTION ->
                     queryScenicSpot(option)
-                QueryScenicSpotOption.ORDERED_BY_NAME, QueryScenicSpotOption.ORDERED_BY_POPULARITY ->
+                QueryScenicSpotOption.SHOW_SPOTS_ORDERED_BY_NAME, QueryScenicSpotOption.SHOW_SPOTS_ORDERED_BY_POPULARITY ->
                     showAllSpotsOrderedBy(option)
             }
             return false
@@ -66,7 +70,7 @@ class QueryScenicSpot {
             // 显示选项
             println(UiUtil.getString(searchMode.name, true))
 
-            val isNameOnly = searchMode == QueryScenicSpotOption.IN_NAME_ONLY
+            val isNameOnly = searchMode == QueryScenicSpotOption.SEARCH_IN_NAME_ONLY
 
             while (true) {
                 // 等待用户输入关键词
@@ -94,11 +98,39 @@ class QueryScenicSpot {
         }
 
         private fun showAllSpotsOrderedBy(orderBy: QueryScenicSpotOption) {
-            TODO()
+            /* 根据选择决定排序依据和是否反向
+             * 按名字正向；按欢迎度反向
+             */
+            val spotOrderBy: Spot.OrderBy
+            val isReverseOrderRequired: Boolean
+
+            when (orderBy) {
+                QueryScenicSpotOption.SHOW_SPOTS_ORDERED_BY_NAME -> {
+                    spotOrderBy = Spot.OrderBy.NAME
+                    isReverseOrderRequired = false
+                }
+                QueryScenicSpotOption.SHOW_SPOTS_ORDERED_BY_POPULARITY -> {
+                    spotOrderBy = Spot.OrderBy.POPULARITY
+                    isReverseOrderRequired = true
+                }
+                else -> throw NotImplementedError()
+            }
+
+            // 获得排序后的列表
+            val orderedList = SpotSorter.getSortedList(
+                    SpotManager.spotMap.values.toList(), spotOrderBy, isReverseOrderRequired
+            )
+
+            orderedList.forEachIndexed { index, spot ->
+                println("$index. $spot")
+            }
         }
     }
 }
 
 private enum class QueryScenicSpotOption {
-    PLACEHOLDER, IN_NAME_ONLY, IN_NAME_AND_INTRODUCTION, ORDERED_BY_NAME, ORDERED_BY_POPULARITY, EXIT
+    PLACEHOLDER,
+    SEARCH_IN_NAME_ONLY, SEARCH_IN_NAME_AND_INTRODUCTION,
+    SHOW_SPOTS_ORDERED_BY_NAME, SHOW_SPOTS_ORDERED_BY_POPULARITY,
+    EXIT
 }
