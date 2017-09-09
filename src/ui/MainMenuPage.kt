@@ -2,6 +2,7 @@ package ui
 
 import ui.function.QueryScenicSpot
 import ui.function.ScenicSpotManagementPage
+import ui.function.ViewScenicSpotMap
 import util.UiUtil
 
 /**
@@ -115,6 +116,8 @@ class MainMenuPage(private val identity: LoginOption) {
             MainMenuOption.ROUTE_MANAGEMENT -> TODO("Pending implementation")
             // QUERY_SCENIC_SPOT
             MainMenuOption.QUERY_SCENIC_SPOT -> QueryScenicSpot.run()
+            // VIEW_SCENIC_SPOT_MAP
+            MainMenuOption.VIEW_SCENIC_SPOT_MAP -> ViewScenicSpotMap.run()
         }
         return false
     }
