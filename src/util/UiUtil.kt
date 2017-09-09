@@ -1,5 +1,6 @@
 package util
 
+import manager.SpotManager
 import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Pattern
@@ -86,8 +87,10 @@ class UiUtil {
 
         /**
          * 打印错误消息并 sleep 10 毫秒。
+         * @param message 被打印的消息
+         * @param newLine 打印后是否换行
          */
-        fun printErrorMessage(message: String?) {
+        fun printErrorMessage(message: String?, newLine: Boolean = true) {
             if (message != null) {
                 System.err.println(message)
                 Thread.sleep(10)
@@ -96,6 +99,12 @@ class UiUtil {
             }
         }
 
+        /**
+         * 以固定的宽度打印字符串。
+         * @param str 被打印的字符串
+         * @param width 固定的宽度
+         * @param newLine 打印后是否换行
+         */
         fun printStringInFixedWidth(str: String, width: Int, newLine: Boolean = true) {
             // 最小宽度为 str 字符数量 + 全角字符的个数
             var desiredWidth = str.length
@@ -113,6 +122,20 @@ class UiUtil {
                 println(result)
             else
                 print(result)
+        }
+
+        /**
+         * 检查是否有可用景点。无可用景点则打印错误消息。
+         * @return 是否有可用景点
+         */
+        fun checkIfAnySpotIsAvailable(): Boolean {
+            if (SpotManager.spotMap.count() == 0) {
+                printErrorMessage(UiUtil.getString("noSpotAvailable"))
+                println(UiUtil.getString("pressEnterToContinue"))
+                readLine()
+                return false
+            }
+            return true
         }
 
 

@@ -155,7 +155,7 @@ class ScenicSpotManagementPage {
             println(UiUtil.getString("modifyScenicSpots")) // 显示功能标题
 
             // 检查是否有景点可以修改，不可以则返回上级
-            val spotIsAvailable = checkIfAnySpotIsAvailable()
+            val spotIsAvailable = UiUtil.checkIfAnySpotIsAvailable()
             if (!spotIsAvailable)
                 return
 
@@ -354,7 +354,7 @@ class ScenicSpotManagementPage {
             println(UiUtil.getString("removeScenicSpots")) // 显示功能标题
 
             // 检查是否有景点可以删除，不可以则返回上级
-            val spotIsAvailable = checkIfAnySpotIsAvailable()
+            val spotIsAvailable = UiUtil.checkIfAnySpotIsAvailable()
             if (!spotIsAvailable)
                 return
 
@@ -454,18 +454,6 @@ class ScenicSpotManagementPage {
                     FileManager.saveAllSpots()
                 }
             }
-        }
-
-
-
-        private fun checkIfAnySpotIsAvailable(): Boolean {
-            if (SpotManager.spotMap.count() == 0) {
-                UiUtil.printErrorMessage(UiUtil.getString("noSpotAvailable"))
-                println(UiUtil.getString("pressEnterToContinue"))
-                readLine()
-                return false
-            }
-            return true
         }
     }
 }
