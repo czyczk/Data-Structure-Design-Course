@@ -72,7 +72,7 @@ class MainMenuPage(private val identity: LoginOption) {
                     option = optionList[response]!!
                 } catch (e: Exception) {
                     pass = false
-                    System.err.println(UiUtil.getString("invalidResponse"))
+                    UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
                 }
             } while (!pass)
 

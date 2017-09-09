@@ -41,7 +41,7 @@ class LoginPage {
                     } finally {
                         // 无效回应则提示，有效回应则获取相应身份
                         if (!pass)
-                            System.err.println(UiUtil.getString("invalidResponse"))
+                            UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
                         else identity = optionList[resp]
                     }
                 } while (!pass)
@@ -52,7 +52,7 @@ class LoginPage {
                     val isIdentityVerified = UiUtil.verifyAdministratorIdentity()
                     if (!isIdentityVerified) {
                         // 提示密码错误
-                        System.err.println(UiUtil.getString("incorrectPassword"))
+                        UiUtil.printErrorMessage(UiUtil.getString("incorrectPassword"))
                         continue   // 密码错误则返回登录界面
                     }
                 }

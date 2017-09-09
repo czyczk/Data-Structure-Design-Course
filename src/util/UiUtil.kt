@@ -87,9 +87,13 @@ class UiUtil {
         /**
          * 打印错误消息并 sleep 10 毫秒。
          */
-        fun printErrorMessage(message: String) {
-            System.err.println(message)
-            Thread.sleep(10)
+        fun printErrorMessage(message: String?) {
+            if (message != null) {
+                System.err.println(message)
+                Thread.sleep(10)
+            } else {
+                println()
+            }
         }
 
         fun printStringInFixedWidth(str: String, width: Int, newLine: Boolean = true) {
@@ -156,7 +160,7 @@ class UiUtil {
                 try {
                     choice = UiUtil.parseInputToChoice(readLine()!!)
                 } catch (e: IllegalArgumentException) {
-                    System.err.println(UiUtil.getString("invalidResponse"))
+                    printErrorMessage(UiUtil.getString("invalidResponse"))
                     pass = false
                 }
             } while (!pass)
@@ -178,10 +182,10 @@ class UiUtil {
                     if (!isNegativeAllowed && value < 0)
                         throw IllegalArgumentException(UiUtil.getString("cannotBeNegative"))
                 } catch (e: NumberFormatException) {
-                    System.err.println(UiUtil.getString("invalidResponse"))
+                    printErrorMessage(UiUtil.getString("invalidResponse"))
                     pass = false
                 } catch (e: IllegalArgumentException) {
-                    System.err.println(e.message)
+                    printErrorMessage(e.message)
                     pass = false
                 }
             } while (!pass)

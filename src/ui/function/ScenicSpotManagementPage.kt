@@ -41,7 +41,7 @@ class ScenicSpotManagementPage {
                         option = optionList[resp]!!
                     } catch (e: Exception) {
                         pass = false
-                        System.err.println(UiUtil.getString("invalidResponse"))
+                        UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
                     }
                 } while (!pass)
 
@@ -98,7 +98,7 @@ class ScenicSpotManagementPage {
                 // 检查是否已有该景点
                 if (SpotManager.spotMap.containsKey(name)) {
                     // 若已有该景点则重新输入名称
-                    System.err.println(UiUtil.getString("theSpotAlreadyExists"))
+                    UiUtil.printErrorMessage(UiUtil.getString("theSpotAlreadyExists"))
                     continue
                 }
 
@@ -239,7 +239,7 @@ class ScenicSpotManagementPage {
                         if (pendingList.containsKey(curSpot.name))
                             curSpot = pendingList[curSpot.name]!! // 若该景点已被修改过则在 pendingList 中找
                     } catch (e: Exception) {
-                        System.err.println(UiUtil.getString("invalidResponse"))
+                        UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
                         pass = false
                     }
                 } while (!pass)
@@ -275,9 +275,8 @@ class ScenicSpotManagementPage {
                                 }
                             }
                         }
-                        if (!pass) {
-                            System.err.println(UiUtil.getString("nameIsDuplicated"))
-                        }
+                        if (!pass)
+                            UiUtil.printErrorMessage(UiUtil.getString("nameIsDuplicated"))
                     } while (!pass)
                 }
 
@@ -418,9 +417,9 @@ class ScenicSpotManagementPage {
                         pendingList.add(nameOfSpotToBeRemoved)
                     } catch (e: Exception) {
                         if (e is IllegalStateException || e is NumberFormatException)
-                            System.err.println(UiUtil.getString("invalidResponse"))
+                            UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
                         else if (e is UnsupportedOperationException)
-                            System.err.println(UiUtil.getString("spotHasBeenMarkedToBeRemoved"))
+                            UiUtil.printErrorMessage(UiUtil.getString("spotHasBeenMarkedToBeRemoved"))
                         pass = false
                     }
                 } while (!pass)
@@ -461,7 +460,7 @@ class ScenicSpotManagementPage {
 
         private fun checkIfAnySpotIsAvailable(): Boolean {
             if (SpotManager.spotMap.count() == 0) {
-                System.err.print(UiUtil.getString("noSpotAvailable"))
+                UiUtil.printErrorMessage(UiUtil.getString("noSpotAvailable"))
                 println(UiUtil.getString("pressEnterToContinue"))
                 readLine()
                 return false
