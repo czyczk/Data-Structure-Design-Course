@@ -4,7 +4,7 @@ import algorithm.RoutePlanner
 import manager.SpotManager
 import util.UiUtil
 
-class QueryDistance {
+class QueryDistancePage {
     companion object {
         fun run() {
             println(UiUtil.getString("queryDistance"))

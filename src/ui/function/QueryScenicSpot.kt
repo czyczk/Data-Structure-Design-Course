@@ -5,7 +5,7 @@ import manager.SpotManager
 import model.Spot
 import util.UiUtil
 
-class QueryScenicSpot {
+class QueryScenicSpotPage {
     companion object {
         private val optionList = mutableMapOf<Int, QueryScenicSpotOption>()
         init {

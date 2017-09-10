@@ -113,11 +113,11 @@ class MainMenuPage(private val identity: LoginOption) {
             // ROUTE_MANAGEMENT
             MainMenuOption.ROUTE_MANAGEMENT -> TODO("Pending implementation")
             // QUERY_SCENIC_SPOT
-            MainMenuOption.QUERY_SCENIC_SPOT -> QueryScenicSpot.run()
+            MainMenuOption.QUERY_SCENIC_SPOT -> QueryScenicSpotPage.run()
             // VIEW_SCENIC_SPOT_MAP
-            MainMenuOption.VIEW_SCENIC_SPOT_MAP -> ViewScenicSpotMap.run()
+            MainMenuOption.VIEW_SCENIC_SPOT_MAP -> ViewScenicSpotMapPage.run()
             // QUERY_DISTANCE
-            MainMenuOption.QUERY_DISTANCE -> QueryDistance.run()
+            MainMenuOption.QUERY_DISTANCE -> QueryDistancePage.run()
             // QUERY_TOURIST_ROUTE
             MainMenuOption.QUERY_TOURIST_ROUTE -> QueryTouristRoutePage.run()
         }

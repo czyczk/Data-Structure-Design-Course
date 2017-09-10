@@ -8,7 +8,7 @@ import util.UiUtil
 import util.Util
 import java.math.BigDecimal
 
-class ViewScenicSpotMap {
+class ViewScenicSpotMapPage {
     companion object {
         fun run() {
             println(UiUtil.getString("viewScenicSpotMap"))
