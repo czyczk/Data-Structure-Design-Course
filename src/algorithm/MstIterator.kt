@@ -10,21 +10,27 @@ class MstIterator {
     }
 
     companion object {
-        fun planRoute(mst: List<Route>, iterationMode: IterationMode = IterationMode.CUSTOM_1): PlannedRoute {
+        fun planRoute(
+                mst: List<Route>,
+                lastSpot: String? = null,
+                iterationMode: IterationMode = IterationMode.CUSTOM_1
+        ): PlannedRoute {
             if (mst.isEmpty())
                 throw IllegalArgumentException(UiUtil.getString("mstIsEmpty"))
 
             return when (iterationMode) {
-                IterationMode.CUSTOM_1 -> custom1(mst)
-                IterationMode.CUSTOM_2 -> custom2(mst)
-                IterationMode.DEPTH_FIRST -> depthFirst(mst)
-                IterationMode.BREADTH_FIST -> breadthFirst(mst)
+                IterationMode.CUSTOM_1 -> custom1(mst, lastSpot)
+                IterationMode.CUSTOM_2 -> custom2(mst, lastSpot)
+                IterationMode.DEPTH_FIRST -> depthFirst(mst, lastSpot)
+                IterationMode.BREADTH_FIST -> breadthFirst(mst, lastSpot)
             }
         }
 
-        private fun custom1(mst: List<Route>): PlannedRoute {
-            var visited = listOf(mst[0].name1)
-            var curBestAssumption = listOf<String>() // curBestAssumption 将记录最佳线路
+        private fun custom1(mst: List<Route>, lastSpot: String?): PlannedRoute {
+            var visited = mutableListOf(mst[0].name1)
+            if (lastSpot != null)
+                visited.add(lastSpot)
+            var curBestAssumption = mutableListOf<String>() // curBestAssumption 将记录每个新点以来每次假设的最佳记录
             var curMinDis = Double.MAX_VALUE
 
             // 每次从 mst 中取出一个新点（每一条Route的终点），探讨它插入在 curBestRoute 中的位置
@@ -35,7 +41,11 @@ class MstIterator {
 
                 // 对新节点最佳插入位置的探讨
                 curMinDis = Double.MAX_VALUE
-                for (i in 1..visited.count()) {
+                val range = if (lastSpot != null)
+                    1 until visited.count()
+                else
+                    1..visited.count()
+                for (i in range) {
                     // 探讨一种假设
                     val assumption = visited.toMutableList()
                     assumption.add(i, newSpot)
@@ -62,15 +72,15 @@ class MstIterator {
             return PlannedRoute(routeList.toTypedArray(), curMinDis)
         }
 
-        private fun custom2(mst: List<Route>): PlannedRoute {
+        private fun custom2(mst: List<Route>, lastSpot: String?): PlannedRoute {
             TODO()
         }
 
-        private fun depthFirst(mst: List<Route>): PlannedRoute {
+        private fun depthFirst(mst: List<Route>, lastSpot: String?): PlannedRoute {
             TODO()
         }
 
-        private fun breadthFirst(mst: List<Route>): PlannedRoute {
+        private fun breadthFirst(mst: List<Route>, lastSpot: String?): PlannedRoute {
             TODO()
         }
     }
