@@ -64,7 +64,7 @@ class QueryDistance {
                 if (src == dest) {
                     println(UiUtil.getString("departureAndDestinationAreTheSame"))
                 } else {
-                    val plannedRoute = RoutePlanner.planBestRoute(src, dest)
+                    val plannedRoute = RoutePlanner(src, dest).planBestRoute()
                     plannedRoute.routeList.forEachIndexed { index, route ->
                         println("${index + 1}. $route")
                     }

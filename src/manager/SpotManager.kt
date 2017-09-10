@@ -1,5 +1,6 @@
 package manager
 
+import algorithm.RoutePlanner
 import model.Spot
 
 class SpotManager {
@@ -13,6 +14,7 @@ class SpotManager {
         fun add(spot: Spot) {
             // 由于在与用户交互时会检查景点是否存在，此处直接添加，不作检查。
             spotMap.put(spot.name, spot)
+            clearAllRelatedCaches()
         }
 
         /**
@@ -24,6 +26,7 @@ class SpotManager {
             spotMap.remove(name)
             // 同时删除所有与之相关的路径
             RouteManager.removeAllRoutesAbout(name)
+            clearAllRelatedCaches()
         }
 
         /**
@@ -43,6 +46,7 @@ class SpotManager {
             if (name != spot.name) {
                 RouteManager.updateName(name, spot.name)
             }
+            clearAllRelatedCaches()
         }
 
         /**
@@ -76,6 +80,12 @@ class SpotManager {
             }
 
             return result.toTypedArray()
+        }
+
+        // 当景点信息发生变动时清空所有相关的缓存
+        private fun clearAllRelatedCaches() {
+            // 清除 RoutePlanner 中最佳线路的缓存
+            RoutePlanner.clearCache()
         }
     }
 }

@@ -1,5 +1,6 @@
 package manager
 
+import algorithm.RoutePlanner
 import dataStructure.LinkedList
 import model.Route
 import model.Vector
@@ -28,6 +29,8 @@ class RouteManager {
             // 向邻接链表中添加线路 (Vector)
             routeMap[route.name1]!!.addLast(Vector(route.name2, route.distance))
             routeMap[route.name2]!!.addLast(Vector(route.name1, route.distance))
+
+            clearAllRelatedCaches()
         }
 
         /**
@@ -37,13 +40,15 @@ class RouteManager {
         fun remove(route: Route) {
             routeMap[route.name1]!!.removeFirstOccurrence(Vector(route.name2, route.distance))
             routeMap[route.name2]!!.removeFirstOccurrence(Vector(route.name1, route.distance))
+
+            clearAllRelatedCaches()
         }
 
         /**
          * 删除所有涉及景点名称为 name 的路线。由 SpotManager 调用。
          * @param name 所涉及的景点名称
          */
-        fun removeAllRoutesAbout(name: String) {
+        internal fun removeAllRoutesAbout(name: String) {
             routeMap.remove(name)
             routeMap.values.forEach {
                 var vector: Vector? = null
@@ -74,6 +79,8 @@ class RouteManager {
                 if (it.destination == route.name1)
                     it.distance = route.distance
             }
+
+            clearAllRelatedCaches()
         }
 
         /**
@@ -81,7 +88,7 @@ class RouteManager {
          * @param oldName 旧名称
          * @param newName 新名称
          */
-        fun updateName(oldName: String, newName: String) {
+        internal fun updateName(oldName: String, newName: String) {
             if (oldName == newName) return
 
             // 将 routeMap 中 key 从 oldName 改为 newName
@@ -110,6 +117,12 @@ class RouteManager {
                 if (it.destination == name2) return Route(name1, name2, it.distance)
             }
             return null
+        }
+
+        // 当线路信息发生变动时清空所有相关的缓存
+        private fun clearAllRelatedCaches() {
+            // 清除 RoutePlanner 中最佳线路的缓存
+            RoutePlanner.clearCache()
         }
     }
 }

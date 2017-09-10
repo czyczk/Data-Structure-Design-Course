@@ -9,23 +9,27 @@ import model.Route
  * 路线规划器。
  * 使用 Dijkstra 算法规划出发地和目的地之间的最佳路径和最短距离。
  */
-class RoutePlanner {
+class RoutePlanner(
+        @Suppress("MemberVisibilityCanPrivate") val src: String,
+        @Suppress("MemberVisibilityCanPrivate") val dest: String) {
     companion object {
-        // 出发地
-        private lateinit var src: String
-        // 目的地
-        private lateinit var dest: String
-        // 记录 src 到任意景点的最佳路径。<任意景点名, 路径沿途景点名>
-        private lateinit var bestRouteMap: MutableMap<String, MutableList<String>>
-        // 记录 src 至其他的最短距离
-        private lateinit var minDisMap: MutableMap<String, Double>
+        // 记录 key 到任意景点的最佳路径。<目的地名称, PlannedRoute>。景点信息发生变动时将被清空。
+        private val plannedRouteMap: MutableMap<Route, PlannedRoute> = mutableMapOf()
 
-        fun planBestRoute(src: String, dest: String): PlannedRoute {
+        fun clearCache() {
+            plannedRouteMap.clear()
+        }
+    }
+
+    // 记录 src 到任意景点的最佳路径。<任意景点名, 路径沿途景点名>
+    private var bestRouteMap: MutableMap<String, MutableList<String>> = mutableMapOf()
+    // 记录 src 至其他的最短距离
+    private var minDisMap: MutableMap<String, Double> = mutableMapOf()
+
+    fun planBestRoute(): PlannedRoute {
+        // 若该线路未被缓存则计算 src 到任意景点的最佳线路
+        if (Route(src, dest) !in plannedRouteMap.keys) {
             // 初始化
-            this.src = src
-            this.dest = dest
-            bestRouteMap = mutableMapOf()
-            minDisMap = mutableMapOf()
             SpotManager.spotMap.keys.forEach {
                 if (it == src) {
                     bestRouteMap[it] = mutableListOf(src)   // src 到 src 的最佳路径为 [src]
@@ -72,15 +76,19 @@ class RoutePlanner {
                 pending -= curSpot
             }
 
-            val bestRouteNameList = bestRouteMap[dest]!!.toTypedArray()
-            val minDis = minDisMap[dest]!!
-            val bestRoute = mutableListOf<Route>()
-            for (i in 0 until bestRouteNameList.count() - 1) {
-                val name1 = bestRouteNameList[i]
-                val name2 = bestRouteNameList[i + 1]
-                bestRoute += RouteManager.query(name1, name2)!!
+            visited.filter { it != src }.forEach {
+                val bestRouteNameList = bestRouteMap[it]!!
+                val minDis = minDisMap[it]!!
+                val bestRoute = mutableListOf<Route>()
+                for (j in 0 until bestRouteNameList.count() - 1) {
+                    val name1 = bestRouteNameList[j]
+                    val name2 = bestRouteNameList[j + 1]
+                    bestRoute += RouteManager.query(name1, name2)!!
+                }
+                plannedRouteMap[Route(src, it)] = PlannedRoute(bestRoute.toTypedArray(), minDis)
             }
-            return PlannedRoute(bestRoute.toTypedArray(), minDis)
         }
+
+        return plannedRouteMap[Route(src, dest)]!!
     }
 }

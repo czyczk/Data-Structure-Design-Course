@@ -2,7 +2,7 @@ package model
 
 import util.UiUtil
 
-data class Route(var name1: String, var name2: String, var distance: Double) {
+data class Route(var name1: String, var name2: String, var distance: Double = 0.0) {
     init {
         if (distance < 0) throw IllegalArgumentException()
     }
@@ -14,7 +14,7 @@ data class Route(var name1: String, var name2: String, var distance: Double) {
         other as Route
 
         if (distance != other.distance) return false
-        if ((name1 == other.name1 || name2 == other.name2) && (name1 == other.name2 && name2 == other.name1))
+        if ((name1 == other.name1 && name2 == other.name2) || (name1 == other.name2 && name2 == other.name1))
             return true
         return false
     }
