@@ -4,8 +4,17 @@ import manager.RouteManager
 import manager.SpotManager
 import model.Route
 
+/**
+ * 最小生成树生成器
+ * 使用 Prim 算法根据指定起点生成最小生成树。
+ */
 class MstGenerator {
     companion object {
+        /**
+         * 根据指定出发点生成最小生成树。
+         * @param departure 出发点
+         * @return 最小生成树
+         */
         fun generate(departure: String): List<Route> {
             val visited = mutableListOf<String>(departure)
             val pending = SpotManager.spotMap.keys.filter { it != departure }.toMutableList()

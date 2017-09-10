@@ -4,12 +4,22 @@ import model.PlannedRoute
 import model.Route
 import util.UiUtil
 
+/**
+ * 最小生成树遍历器
+ * 使用自定义算法、深度优先和广度优先遍历最小生成树，作为 Hamilton 图的近似解。
+ */
 class MstIterator {
     enum class IterationMode {
         CUSTOM_1, CUSTOM_2, DEPTH_FIRST, BREADTH_FIST
     }
 
     companion object {
+        /**
+         * 生成最小生成树的遍历方案
+         * @param mst 最小生成树
+         * @param lastSpot 指定最后一个景点（可选）
+         * @param iterationMode 指定遍历算法（可选）
+         */
         fun planRoute(
                 mst: List<Route>,
                 lastSpot: String? = null,

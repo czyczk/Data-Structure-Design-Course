@@ -13,7 +13,7 @@ class RoutePlanner(
         @Suppress("MemberVisibilityCanPrivate") val src: String,
         @Suppress("MemberVisibilityCanPrivate") val dest: String) {
     companion object {
-        // 记录 key 到任意景点的最佳路径。<目的地名称, PlannedRoute>。景点信息发生变动时将被清空。
+        // 记录任意两个景点的最佳路径。<Route(起点, 终点), PlannedRoute>。景点信息发生变动时将被清空。
         private val plannedRouteMap: MutableMap<Route, PlannedRoute> = mutableMapOf()
 
         fun clearCache() {
