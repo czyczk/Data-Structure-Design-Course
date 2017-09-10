@@ -1,9 +1,6 @@
 package ui
 
-import ui.function.QueryDistance
-import ui.function.QueryScenicSpot
-import ui.function.ScenicSpotManagementPage
-import ui.function.ViewScenicSpotMap
+import ui.function.*
 import util.UiUtil
 
 /**
@@ -30,7 +27,7 @@ class MainMenuPage(private val identity: LoginOption) {
                     MainMenuOption.QUERY_SCENIC_SPOT,
                     MainMenuOption.VIEW_SCENIC_SPOT_MAP,
                     MainMenuOption.QUERY_DISTANCE,
-                    MainMenuOption.VIEW_TOURIST_ROUTE,
+                    MainMenuOption.QUERY_TOURIST_ROUTE,
                     MainMenuOption.PARKING_LOT_EMULATOR,
                     MainMenuOption.NOTICE_MANAGEMENT,
                     MainMenuOption.VIEW_NOTICE,
@@ -41,7 +38,7 @@ class MainMenuPage(private val identity: LoginOption) {
                     MainMenuOption.QUERY_SCENIC_SPOT,
                     MainMenuOption.VIEW_SCENIC_SPOT_MAP,
                     MainMenuOption.QUERY_DISTANCE,
-                    MainMenuOption.VIEW_TOURIST_ROUTE,
+                    MainMenuOption.QUERY_TOURIST_ROUTE,
                     MainMenuOption.VIEW_NOTICE
             )
             else                     -> throw NotImplementedError()
@@ -121,6 +118,8 @@ class MainMenuPage(private val identity: LoginOption) {
             MainMenuOption.VIEW_SCENIC_SPOT_MAP -> ViewScenicSpotMap.run()
             // QUERY_DISTANCE
             MainMenuOption.QUERY_DISTANCE -> QueryDistance.run()
+            // QUERY_TOURIST_ROUTE
+            MainMenuOption.QUERY_TOURIST_ROUTE -> QueryTouristRoutePage.run()
         }
         return false
     }
