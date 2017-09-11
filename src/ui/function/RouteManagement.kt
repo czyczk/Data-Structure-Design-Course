@@ -173,7 +173,7 @@ class RouteManagementPage {
                 println(UiUtil.getString("routesToBeAdded"))
                 var ordinal = 1
                 pendingList.forEach {
-                    println("\t${ordinal++}. ${it}")
+                    println("\t${ordinal++}. $it")
                 }
 
                 // 询问是否保存
@@ -188,7 +188,132 @@ class RouteManagementPage {
         }
 
         private fun modifyRoutes() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            println(UiUtil.getString("modifyRoutes"))
+
+            // 检查是否有线路可以修改，不可以则返回上级
+            val routeIsAvailable = UiUtil.checkIfAnyRouteIsAvailable()
+            if (!routeIsAvailable)
+                return
+
+            val pendingList = mutableListOf<Route>() // 待用户确认更改的线路列表
+
+            while (true) {
+                // 显示当前线路数量
+                print(
+                        String.format(
+                                UiUtil.getString("totalNumberOfRoutes"),
+                                RouteManager.routeMap.count()
+                        )
+                )
+                // 显示待确认线路数
+                if (pendingList.isEmpty())
+                    println()
+                else {
+                    println(
+                            String.format(
+                                    UiUtil.getString("totalNumberOfPendingRoutes"),
+                                    pendingList.count()
+                            )
+                    )
+                }
+
+                // 等待输入并检验名称 1
+                print(UiUtil.getString("enterNameOfSpot1"))
+                println(UiUtil.getString("enterZeroToExit"))
+                var pass: Boolean
+                var isBreak = false
+                var name1 = ""
+
+                do {
+                    pass = true
+                    name1 = readLine()!!
+                    if (name1 == "0") {
+                        isBreak = true
+                        break
+                    }
+
+                    if (name1 !in SpotManager.spotMap.keys) {
+                        UiUtil.printErrorMessage(UiUtil.getString("theSpotDoesNotExist"))
+                        pass = false
+                    }
+                } while (!pass)
+
+                if (isBreak)
+                    break
+
+                // 等待输入并检验名称 2
+                print(UiUtil.getString("enterNameOfSpot2"))
+                println(UiUtil.getString("enterZeroToExit"))
+                var name2 = ""
+
+                do {
+                    pass = true
+                    name2 = readLine()!!
+                    if (name2 == "0") {
+                        isBreak = true
+                        break
+                    }
+
+                    if (name1 == name2) {
+                        UiUtil.printErrorMessage(UiUtil.getString("departureAndDestinationAreTheSame"))
+                        pass = false
+                    } else if (name2 !in SpotManager.spotMap.keys) {
+                        UiUtil.printErrorMessage(UiUtil.getString("theSpotDoesNotExist"))
+                        pass = false
+                    }
+                } while (!pass)
+
+                if (isBreak)
+                    break
+
+                // 检验该线路是否不存在（取出旧线路，可能是二次修改先从待确认列表中取，再从 routeMap 中取）
+                var oldRoute: Route? = pendingList.firstOrNull {
+                    (it.name1 == name1 && it.name2 == name2) || (it.name1 == name2 && it.name2 == name1)
+                }
+                if (oldRoute == null)
+                    oldRoute = RouteManager.query(name1, name2)
+
+                if (oldRoute == null) {
+                    UiUtil.printErrorMessage(UiUtil.getString("theRouteDoesNotExist"))
+                    continue
+                }
+
+                // 输入距离
+                println(UiUtil.getString("enterDistance"))
+                val distance = UiUtil.enterDouble(false)
+
+                // 若新距离不一样则加入待确认列表（注意可能是二次修改）
+                val newRoute = Route(name1, name2, distance)
+                if (oldRoute != newRoute) {
+                    pendingList.remove(oldRoute)
+                    pendingList.add(Route(name1, name2, distance))
+                }
+
+                // 询问是否继续添加
+                print(UiUtil.getString("isContinueModifying"))
+                println(UiUtil.getString("yesOrNo"))
+                val isContinueAdding = UiUtil.enterChoice()
+                if (!isContinueAdding)
+                    break
+            }
+
+            if (pendingList.isNotEmpty()) {
+                // 列出所有已修改待确认的线路
+                println(UiUtil.getString("routesToBeModified"))
+                var ordinal = 1
+                pendingList.forEach {
+                    println("\t${ordinal++}. $it")
+                }
+
+                // 询问是否保存
+                print(UiUtil.getString("areChangesToBeSaved"))
+                println(UiUtil.getString("yesOrNo"))
+                val isSave = UiUtil.enterChoice()
+                if (isSave) {
+                    pendingList.forEach { RouteManager.updateDistance(it) }
+                    FileManager.saveAllRoutes()
+                }
+            }
         }
 
         private fun removeRoutes() {

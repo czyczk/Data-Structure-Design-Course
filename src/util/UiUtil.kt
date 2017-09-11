@@ -1,5 +1,6 @@
 package util
 
+import manager.RouteManager
 import manager.SpotManager
 import java.math.BigDecimal
 import java.nio.charset.Charset
@@ -144,6 +145,20 @@ class UiUtil {
         fun checkIfAnySpotIsAvailable(): Boolean {
             if (SpotManager.spotMap.count() == 0) {
                 printErrorMessage(UiUtil.getString("noSpotAvailable"))
+                println(UiUtil.getString("pressEnterToContinue"))
+                readLine()
+                return false
+            }
+            return true
+        }
+
+        /**
+         * 检查是否有可用线路。无可用线路则打印错误消息。
+         * @return 是否有可用线路
+         */
+        fun checkIfAnyRouteIsAvailable(): Boolean {
+            if (RouteManager.routeMap.count() == 0) {
+                printErrorMessage(UiUtil.getString("noRouteAvailable"))
                 println(UiUtil.getString("pressEnterToContinue"))
                 readLine()
                 return false
