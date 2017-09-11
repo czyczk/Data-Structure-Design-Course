@@ -317,7 +317,124 @@ class RouteManagementPage {
         }
 
         private fun removeRoutes() {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            println(UiUtil.getString("removeRoutes"))
+
+            // 检查是否有线路可以修改，不可以则返回上级
+            val routeIsAvailable = UiUtil.checkIfAnyRouteIsAvailable()
+            if (!routeIsAvailable)
+                return
+
+            val pendingList = mutableListOf<Route>() // 待用户确认删除的线路列表
+
+            while (true) {
+                // 显示当前线路数量
+                print(
+                        String.format(
+                                UiUtil.getString("totalNumberOfRoutes"),
+                                RouteManager.routeMap.count()
+                        )
+                )
+                // 显示待确认线路数
+                if (pendingList.isEmpty())
+                    println()
+                else {
+                    println(
+                            String.format(
+                                    UiUtil.getString("totalNumberOfPendingRoutes"),
+                                    pendingList.count()
+                            )
+                    )
+                }
+
+                // 等待输入并检验名称 1
+                print(UiUtil.getString("enterNameOfSpot1"))
+                println(UiUtil.getString("enterZeroToExit"))
+                var pass: Boolean
+                var isBreak = false
+                var name1 = ""
+
+                do {
+                    pass = true
+                    name1 = readLine()!!
+                    if (name1 == "0") {
+                        isBreak = true
+                        break
+                    }
+
+                    if (name1 !in SpotManager.spotMap.keys) {
+                        UiUtil.printErrorMessage(UiUtil.getString("theSpotDoesNotExist"))
+                        pass = false
+                    }
+                } while (!pass)
+
+                if (isBreak)
+                    break
+
+                // 等待输入并检验名称 2
+                print(UiUtil.getString("enterNameOfSpot2"))
+                println(UiUtil.getString("enterZeroToExit"))
+                var name2 = ""
+
+                do {
+                    pass = true
+                    name2 = readLine()!!
+                    if (name2 == "0") {
+                        isBreak = true
+                        break
+                    }
+
+                    if (name1 == name2) {
+                        UiUtil.printErrorMessage(UiUtil.getString("departureAndDestinationAreTheSame"))
+                        pass = false
+                    } else if (name2 !in SpotManager.spotMap.keys) {
+                        UiUtil.printErrorMessage(UiUtil.getString("theSpotDoesNotExist"))
+                        pass = false
+                    }
+                } while (!pass)
+
+                if (isBreak)
+                    break
+
+                // 检验该线路是否已被标记删除
+                if (Route(name1, name2) in pendingList.map { Route(it.name1, it.name2) }) {
+                    UiUtil.printErrorMessage(UiUtil.getString("spotHasBeenMarkedToBeRemoved"))
+                    continue
+                }
+
+                // 检验该线路是否存在
+                val existingRoute = RouteManager.query(name1, name2)
+                if (existingRoute == null) {
+                    UiUtil.printErrorMessage(UiUtil.getString("theRouteDoesNotExist"))
+                    continue
+                }
+
+                pendingList.add(existingRoute)
+
+                // 询问是否继续删除
+                print(UiUtil.getString("isContinueRemoving"))
+                println(UiUtil.getString("yesOrNo"))
+                val isContinueAdding = UiUtil.enterChoice()
+                if (!isContinueAdding)
+                    break
+            }
+
+            if (pendingList.isNotEmpty()) {
+                // 列出所有已删除待确认的线路
+                println(UiUtil.getString("routesToBeRemoved"))
+                var ordinal = 1
+                pendingList.forEach {
+                    println("\t${ordinal++}. $it")
+                }
+
+                // 询问是否保存
+                print(UiUtil.getString("areChangesToBeSaved"))
+                println(UiUtil.getString("yesOrNo"))
+                val isSave = UiUtil.enterChoice()
+                if (isSave) {
+                    pendingList.forEach { RouteManager.remove(it) }
+                    FileManager.saveAllRoutes()
+                }
+            }
         }
     }
 }
