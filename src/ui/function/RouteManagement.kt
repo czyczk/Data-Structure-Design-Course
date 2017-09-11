@@ -93,7 +93,7 @@ class RouteManagementPage {
                 // 景点 1
                 print(UiUtil.getString("enterNameOfSpot1"))
                 println(UiUtil.getString("enterZeroToExit"))
-                var name1 = ""
+                var name1: String
                 var pass: Boolean
                 var isBreak = false
                 do {
@@ -118,7 +118,7 @@ class RouteManagementPage {
                 // 景点 2
                 print(UiUtil.getString("enterNameOfSpot2"))
                 println(UiUtil.getString("enterZeroToExit"))
-                var name2 = ""
+                var name2: String
                 do {
                     pass = true
                     name2 = readLine()!!
@@ -222,7 +222,7 @@ class RouteManagementPage {
                 println(UiUtil.getString("enterZeroToExit"))
                 var pass: Boolean
                 var isBreak = false
-                var name1 = ""
+                var name1: String
 
                 do {
                     pass = true
@@ -244,7 +244,7 @@ class RouteManagementPage {
                 // 等待输入并检验名称 2
                 print(UiUtil.getString("enterNameOfSpot2"))
                 println(UiUtil.getString("enterZeroToExit"))
-                var name2 = ""
+                var name2: String
 
                 do {
                     pass = true
@@ -351,7 +351,7 @@ class RouteManagementPage {
                 println(UiUtil.getString("enterZeroToExit"))
                 var pass: Boolean
                 var isBreak = false
-                var name1 = ""
+                var name1: String
 
                 do {
                     pass = true
@@ -373,7 +373,7 @@ class RouteManagementPage {
                 // 等待输入并检验名称 2
                 print(UiUtil.getString("enterNameOfSpot2"))
                 println(UiUtil.getString("enterZeroToExit"))
-                var name2 = ""
+                var name2: String
 
                 do {
                     pass = true

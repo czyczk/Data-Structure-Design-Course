@@ -69,7 +69,7 @@ class QueryTouristRoutePage {
             if (!isSpotAvailable)
                 return
 
-            var departure = ""
+            var departure: String
             while (true) {
                 // 等待用户输入起点并检验
                 print(UiUtil.getString("enterDeparture"))

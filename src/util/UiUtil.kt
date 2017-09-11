@@ -92,7 +92,7 @@ class UiUtil {
          * @param message 被打印的消息
          * @param newLine 打印后是否换行
          */
-        fun printErrorMessage(message: String?, newLine: Boolean = true) {
+        fun printErrorMessage(message: String?, @Suppress("UNUSED_PARAMETER") newLine: Boolean = true) {
             if (message != null) {
                 System.err.println(message)
                 Thread.sleep(10)
