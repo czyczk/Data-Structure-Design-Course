@@ -39,5 +39,23 @@ class Queue<E> {
         }
     }
 
+    /**
+     * 清空队列（清空所有元素）。
+     */
+    fun clear() {
+        list.clear()
+    }
+
+    /**
+     * 检查是否包含元素。
+     * @param item 检查的元素
+     * @return 是否包含元素
+     */
+    fun contains(item: E): Boolean {
+        return list.contains(item)
+    }
+
     override fun toString(): String = list.toString()
+
+    fun toList() = list.toList()
 }

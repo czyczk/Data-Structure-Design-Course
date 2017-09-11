@@ -120,6 +120,8 @@ class MainMenuPage(private val identity: LoginOption) {
             MainMenuOption.QUERY_DISTANCE -> QueryDistancePage.run()
             // QUERY_TOURIST_ROUTE
             MainMenuOption.QUERY_TOURIST_ROUTE -> QueryTouristRoutePage.run()
+            // PARKING_LOT_EMULATOR
+            MainMenuOption.PARKING_LOT_EMULATOR -> ParkingLotEmulatorPage.run()
         }
         return false
     }

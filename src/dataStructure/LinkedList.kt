@@ -150,6 +150,20 @@ class LinkedList<E> : Iterable<E> {
     }
 
     /**
+     * 检查是否包含元素。
+     * @param item 检查的元素
+     * @return 是否包含元素
+     */
+    fun contains(item: E): Boolean {
+        val it = iterator()
+        while (it.hasNext()) {
+            if (it.next() == item)
+                return true
+        }
+        return false
+    }
+
+    /**
      * 寻找链表中第一个出现的该元素，并移除它。
      * @param item 要删除的元素
      * @return 是否成功找到并移除该元素
@@ -198,6 +212,15 @@ class LinkedList<E> : Iterable<E> {
         }
 
         return sb.dropLast(1).toString()
+    }
+
+    fun toList(): List<E> {
+        val it = iterator()
+        val list = mutableListOf<E>()
+        while (it.hasNext()) {
+            list.add(it.next())
+        }
+        return list.toList()
     }
 
 

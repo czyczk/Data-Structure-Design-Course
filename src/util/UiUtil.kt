@@ -245,6 +245,31 @@ class UiUtil {
             return value
         }
 
+        /**
+         * 要求一个 int 型。不合法的输入将导致重试。
+         * @param isNegativeAllowed 允许负数
+         * @return Int 型数值
+         */
+        fun enterInt(isNegativeAllowed: Boolean = true): Int {
+            var pass: Boolean
+            var value = 0
+            do {
+                pass = true
+                try {
+                    value = readLine()!!.toInt()
+                    if (!isNegativeAllowed && value < 0)
+                        throw IllegalArgumentException(UiUtil.getString("cannotBeNegative"))
+                } catch (e: NumberFormatException) {
+                    printErrorMessage(UiUtil.getString("invalidResponse"))
+                    pass = false
+                } catch (e: IllegalArgumentException) {
+                    printErrorMessage(e.message)
+                    pass = false
+                }
+            } while (!pass)
+            return value
+        }
+
 
     }
 }
