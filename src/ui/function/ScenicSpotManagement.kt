@@ -101,6 +101,11 @@ class ScenicSpotManagementPage {
                     UiUtil.printErrorMessage(UiUtil.getString("theSpotAlreadyExists"))
                     continue
                 }
+                // 检查该景点是否待确认
+                if (name in pendingList.map { it.name }) {
+                    UiUtil.printErrorMessage(UiUtil.getString("theSpotIsPending"))
+                    continue
+                }
 
                 // 景点的简介
                 println(UiUtil.getString("enterIntroduction"))
@@ -346,6 +351,7 @@ class ScenicSpotManagementPage {
                         SpotManager.update(t, u)
                     }
                     FileManager.saveAllSpots()
+                    FileManager.saveAllRoutes()
                 }
             }
         }
@@ -452,6 +458,7 @@ class ScenicSpotManagementPage {
                         SpotManager.remove(it)
                     }
                     FileManager.saveAllSpots()
+                    FileManager.saveAllRoutes()
                 }
             }
         }
