@@ -111,7 +111,7 @@ class MainMenuPage(private val identity: LoginOption) {
             // SCENIC_SPOT_MANAGEMENT
             MainMenuOption.SCENIC_SPOT_MANAGEMENT -> ScenicSpotManagementPage.run()
             // ROUTE_MANAGEMENT
-            MainMenuOption.ROUTE_MANAGEMENT -> TODO("Pending implementation")
+            MainMenuOption.ROUTE_MANAGEMENT -> RouteManagementPage.run()
             // QUERY_SCENIC_SPOT
             MainMenuOption.QUERY_SCENIC_SPOT -> QueryScenicSpotPage.run()
             // VIEW_SCENIC_SPOT_MAP
