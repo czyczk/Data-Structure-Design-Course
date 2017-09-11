@@ -190,12 +190,12 @@ class UiUtil {
             return if (resp.equals("Y", true) ||
                     resp.equals("yes", true) ||
                     resp.equals("true", true) ||
-                    resp.equals("是"))
+                    resp == "是")
                 true
             else if (resp.equals("N", true) ||
                     resp.equals("no", true)||
                     resp.equals("false", true) ||
-                    resp.equals("否"))
+                    resp == "否")
                 false
             else
                 throw IllegalArgumentException(UiUtil.getString("notInvalidInputForBoolean"))
