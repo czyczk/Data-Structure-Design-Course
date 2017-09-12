@@ -1,7 +1,9 @@
 package manager
 
 import algorithm.RoutePlanner
+import dataStructure.LinkedList
 import model.scenicArea.Spot
+import model.scenicArea.Vector
 
 class SpotManager {
     companion object {
@@ -14,6 +16,8 @@ class SpotManager {
         fun add(spot: Spot) {
             // 由于在与用户交互时会检查景点是否存在，此处直接添加，不作检查。
             spotMap.put(spot.name, spot)
+            // 为线路留出列表
+            RouteManager.routeMap[spot.name] = LinkedList<Vector>()
             clearAllRelatedCaches()
         }
 

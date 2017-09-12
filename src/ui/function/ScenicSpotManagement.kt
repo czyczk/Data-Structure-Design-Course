@@ -1,6 +1,7 @@
 package ui.function
 
 import manager.FileManager
+import manager.NoticeManager
 import manager.SpotManager
 import model.scenicArea.Spot
 import util.UiUtil
@@ -152,6 +153,17 @@ class ScenicSpotManagementPage {
                 if (isSave) {
                     pendingList.forEach { SpotManager.add(it) }
                     FileManager.saveAllSpots()
+                    // 发布公告
+                    var notice = String.format(UiUtil.getString("numSpotsAreAdded"), pendingList.count())
+                    val it = pendingList.iterator()
+                    while (it.hasNext()) {
+                        notice += it.next().name
+                        notice += if (it.hasNext())
+                            UiUtil.getString("comma")
+                        else
+                            UiUtil.getString("period")
+                    }
+                    NoticeManager.add(notice)
                 }
             }
         }
@@ -224,7 +236,7 @@ class ScenicSpotManagementPage {
 
                 // 等待并检验用户回应
                 var curSpot: Spot? = null
-                var curName: String? = null // curSpot 在 availableSpots 或 pendingList 中对应的 key 名
+                var curKey: String? = null // curSpot 在 availableSpots 或 pendingList 中对应的 key 名
                 var pass: Boolean
                 var isBreak = false
                 do {
@@ -240,7 +252,7 @@ class ScenicSpotManagementPage {
                         if (!availableSpots.containsKey(respInt))
                             error("")
                         curSpot = availableSpots[respInt]!! // availableSpots 中序号对应的实体为待更改的景点
-                        curName = curSpot.name
+                        curKey = curSpot.name
                         if (pendingList.containsKey(curSpot.name))
                             curSpot = pendingList[curSpot.name]!! // 若该景点已被修改过则在 pendingList 中找
                     } catch (e: Exception) {
@@ -254,7 +266,7 @@ class ScenicSpotManagementPage {
 
                 // 显示景点详情
                 curSpot as Spot
-                curName as String
+                curKey as String
                 println(curSpot)
 
                 // 询问是否换名
@@ -268,7 +280,7 @@ class ScenicSpotManagementPage {
                     do {
                         pass = true
                         name = readLine()!!
-                        if (name != curName) {
+                        if (name != curKey) {
                             if (SpotManager.spotMap.containsKey(name))
                                 pass = false
                             else {
@@ -317,10 +329,14 @@ class ScenicSpotManagementPage {
                 if (UiUtil.enterChoice())
                     isToiletProvided = !isToiletProvided
 
-                // 检查是否被更改，被更改则加入 pendingList，或覆盖 pendingList 中上一次修改
+                // 检查是否被更改，
+                // 若修改完和最原始版本一样，则从 pendingList 中移除，
+                // 否则，加入 pendingList，或覆盖 pendingList 中上一次修改
                 val newSpot = Spot(name, introduction, popularity, isRestAreaProvided, isToiletProvided)
-                if (curSpot != newSpot)
-                    pendingList.put(curName, newSpot)
+                if (newSpot == SpotManager.spotMap[curKey])
+                    pendingList.remove(curKey)
+                else if (curSpot != newSpot)
+                    pendingList.put(curKey, newSpot)
 
                 // 询问是否继续修改
                 print(UiUtil.getString("isContinueModifying"))
@@ -352,6 +368,21 @@ class ScenicSpotManagementPage {
                     }
                     FileManager.saveAllSpots()
                     FileManager.saveAllRoutes()
+                    // 发布公告
+                    var notice = String.format(UiUtil.getString("numSpotsAreModified"), pendingList.count())
+                    val it = pendingList.keys.iterator()
+                    while (it.hasNext()) {
+                        val nameKey = it.next()
+                        notice += nameKey
+                        val nameChanged = pendingList[nameKey]!!.name
+                        if (nameKey != nameChanged)
+                            notice += " -> " + nameChanged
+                        notice += if (it.hasNext())
+                            UiUtil.getString("comma")
+                        else
+                            UiUtil.getString("period")
+                    }
+                    NoticeManager.add(notice)
                 }
             }
         }
@@ -459,6 +490,17 @@ class ScenicSpotManagementPage {
                     }
                     FileManager.saveAllSpots()
                     FileManager.saveAllRoutes()
+                    // 发布公告
+                    var notice = String.format(UiUtil.getString("numSpotsAreRemoved"), pendingList.count())
+                    val it = pendingList.iterator()
+                    while (it.hasNext()) {
+                        notice += it.next()
+                        notice += if (it.hasNext())
+                            UiUtil.getString("comma")
+                        else
+                            UiUtil.getString("period")
+                    }
+                    NoticeManager.add(notice)
                 }
             }
         }

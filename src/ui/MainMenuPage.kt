@@ -29,7 +29,6 @@ class MainMenuPage(private val identity: LoginOption) {
                     MainMenuOption.QUERY_DISTANCE,
                     MainMenuOption.QUERY_TOURIST_ROUTE,
                     MainMenuOption.PARKING_LOT_EMULATOR,
-                    MainMenuOption.NOTICE_MANAGEMENT,
                     MainMenuOption.VIEW_NOTICE,
                     MainMenuOption.EXIT
             )
@@ -122,6 +121,8 @@ class MainMenuPage(private val identity: LoginOption) {
             MainMenuOption.QUERY_TOURIST_ROUTE -> QueryTouristRoutePage.run()
             // PARKING_LOT_EMULATOR
             MainMenuOption.PARKING_LOT_EMULATOR -> ParkingLotEmulatorPage.run()
+            // NOTICE_MANAGEMENT
+            MainMenuOption.VIEW_NOTICE -> ViewNoticePage.run()
         }
         return false
     }

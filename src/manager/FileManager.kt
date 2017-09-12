@@ -1,6 +1,7 @@
 package manager
 
 import com.google.gson.GsonBuilder
+import dataStructure.LinkedList
 import model.scenicArea.Route
 import model.scenicArea.Spot
 import model.scenicArea.Vector
@@ -37,6 +38,9 @@ class FileManager {
             SpotManager.spotMap =
                     gson.fromJson(reader, Util.genericType<MutableMap<String, Spot>>())
             reader.close()
+
+            // 为每个景点留出线路列表
+            SpotManager.spotMap.keys.forEach { RouteManager.routeMap[it] = LinkedList<Vector>() }
         }
 
         // 读取所有线路
