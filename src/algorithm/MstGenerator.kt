@@ -2,7 +2,7 @@ package algorithm
 
 import manager.RouteManager
 import manager.SpotManager
-import model.Route
+import model.scenicArea.Route
 
 /**
  * 最小生成树生成器

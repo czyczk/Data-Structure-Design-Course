@@ -1,6 +1,6 @@
 package algorithm
 
-import model.Spot
+import model.scenicArea.Spot
 import java.text.Collator
 import java.util.*
 

@@ -3,10 +3,8 @@ package ui.function
 import algorithm.SpotSorter
 import manager.RouteManager
 import manager.SpotManager
-import model.Spot
+import model.scenicArea.Spot
 import util.UiUtil
-import util.Util
-import java.math.BigDecimal
 
 class ViewScenicSpotMapPage {
     companion object {

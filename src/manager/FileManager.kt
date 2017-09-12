@@ -1,11 +1,9 @@
 package manager
 
 import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import dataStructure.LinkedList
-import model.Route
-import model.Spot
-import model.Vector
+import model.scenicArea.Route
+import model.scenicArea.Spot
+import model.scenicArea.Vector
 import util.Util
 import java.io.*
 import java.nio.file.Files

@@ -2,8 +2,8 @@ package algorithm
 
 import manager.RouteManager
 import manager.SpotManager
-import model.PlannedRoute
-import model.Route
+import model.scenicArea.PlannedRoute
+import model.scenicArea.Route
 
 /**
  * 路线规划器。

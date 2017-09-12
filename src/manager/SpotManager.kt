@@ -1,7 +1,7 @@
 package manager
 
 import algorithm.RoutePlanner
-import model.Spot
+import model.scenicArea.Spot
 
 class SpotManager {
     companion object {

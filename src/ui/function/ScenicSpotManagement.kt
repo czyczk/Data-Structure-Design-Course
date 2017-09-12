@@ -2,7 +2,7 @@ package ui.function
 
 import manager.FileManager
 import manager.SpotManager
-import model.Spot
+import model.scenicArea.Spot
 import util.UiUtil
 
 class ScenicSpotManagementPage {

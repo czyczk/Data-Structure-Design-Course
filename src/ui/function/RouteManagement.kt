@@ -3,7 +3,7 @@ package ui.function
 import manager.FileManager
 import manager.RouteManager
 import manager.SpotManager
-import model.Route
+import model.scenicArea.Route
 import util.UiUtil
 
 class RouteManagementPage {

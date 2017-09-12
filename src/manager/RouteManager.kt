@@ -2,8 +2,8 @@ package manager
 
 import algorithm.RoutePlanner
 import dataStructure.LinkedList
-import model.Route
-import model.Vector
+import model.scenicArea.Route
+import model.scenicArea.Vector
 
 class RouteManager {
     companion object {

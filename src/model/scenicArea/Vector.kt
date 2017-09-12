@@ -1,4 +1,4 @@
-package model
+package model.scenicArea
 
 import java.security.InvalidParameterException
 

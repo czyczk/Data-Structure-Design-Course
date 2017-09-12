@@ -1,7 +1,7 @@
 package algorithm
 
-import model.PlannedRoute
-import model.Route
+import model.scenicArea.PlannedRoute
+import model.scenicArea.Route
 import util.UiUtil
 
 /**
