@@ -7,68 +7,71 @@ import util.UiUtil
 
 class ParkingLotEmulatorPage {
     companion object {
-        private val optionList = mutableMapOf<Int, ParkingLotEmulatorOption>()
-        init {
-            val availableOptions = arrayOf(
-                    ParkingLotEmulatorOption.EXIT,
-                    ParkingLotEmulatorOption.READ_DATA_FROM_FILE,
-                    ParkingLotEmulatorOption.MANUALLY_INPUT_DATA
-            )
-            var ordinal = 0
-            availableOptions.forEach {
-                optionList[ordinal++] = it
-            }
-        }
+//        private val optionList = mutableMapOf<Int, ParkingLotEmulatorOption>()
+//        init {
+//            val availableOptions = arrayOf(
+//                    ParkingLotEmulatorOption.EXIT,
+//                    ParkingLotEmulatorOption.READ_DATA_FROM_FILE,
+//                    ParkingLotEmulatorOption.MANUALLY_INPUT_DATA
+//            )
+//            var ordinal = 0
+//            availableOptions.forEach {
+//                optionList[ordinal++] = it
+//            }
+//        }
 
         fun run() {
-            while (true) {
-                println(UiUtil.getString("parkingLotEmulator"))
+//            while (true) {
+//                println(UiUtil.getString("parkingLotEmulator"))
+//
+//                // 显示可选模式
+//                optionList.forEach { t, u ->
+//                    println("\t$t. ${UiUtil.getString(u.name, true)}")
+//                }
+//
+//                // 等待并检验用户的响应
+//                println(UiUtil.getString("selectAnOption"))
+//                var option = ParkingLotEmulatorOption.PLACEHOLDER
+//                var pass: Boolean
+//                do {
+//                    try {
+//                        pass = true
+//                        val resp = readLine()!!.toInt()
+//                        if (!optionList.containsKey(resp))
+//                            error("")
+//                        option = optionList[resp]!!
+//                    } catch (e: Exception) {
+//                        pass = false
+//                        UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
+//                    }
+//                } while (!pass)
+//
+//                // 调用相关方法
+//                val isBreak = invoke(option)
+//                if (isBreak)
+//                    break
+//            }
+            println(UiUtil.getString("parkingLotEmulator"))
+            manuallyInputData()
 
-                // 显示可选模式
-                optionList.forEach { t, u ->
-                    println("\t$t. ${UiUtil.getString(u.name, true)}")
-                }
-
-                // 等待并检验用户的响应
-                println(UiUtil.getString("selectAnOption"))
-                var option = ParkingLotEmulatorOption.PLACEHOLDER
-                var pass: Boolean
-                do {
-                    try {
-                        pass = true
-                        val resp = readLine()!!.toInt()
-                        if (!optionList.containsKey(resp))
-                            error("")
-                        option = optionList[resp]!!
-                    } catch (e: Exception) {
-                        pass = false
-                        UiUtil.printErrorMessage(UiUtil.getString("invalidResponse"))
-                    }
-                } while (!pass)
-
-                // 调用相关方法
-                val isBreak = invoke(option)
-                if (isBreak)
-                    break
-            }
         }
 
-        private fun invoke(option: ParkingLotEmulatorOption): Boolean {
-            when (option) {
-                ParkingLotEmulatorOption.PLACEHOLDER ->
-                    throw IllegalStateException(UiUtil.getString("optionIsPlaceholder"))
-                ParkingLotEmulatorOption.EXIT -> return true
-                ParkingLotEmulatorOption.READ_DATA_FROM_FILE ->
-                    readDataFromFile()
-                ParkingLotEmulatorOption.MANUALLY_INPUT_DATA ->
-                    manuallyInputData()
-            }
-            return false
-        }
+//        private fun invoke(option: ParkingLotEmulatorOption): Boolean {
+//            when (option) {
+//                ParkingLotEmulatorOption.PLACEHOLDER ->
+//                    throw IllegalStateException(UiUtil.getString("optionIsPlaceholder"))
+//                ParkingLotEmulatorOption.EXIT -> return true
+//                ParkingLotEmulatorOption.READ_DATA_FROM_FILE ->
+//                    readDataFromFile()
+//                ParkingLotEmulatorOption.MANUALLY_INPUT_DATA ->
+//                    manuallyInputData()
+//            }
+//            return false
+//        }
 
-        private fun readDataFromFile() {
-            TODO()
-        }
+//        private fun readDataFromFile() {
+//            TODO()
+//        }
 
         private fun manuallyInputData() {
             println(UiUtil.getString("manuallyInputData"))
@@ -163,6 +166,6 @@ class ParkingLotEmulatorPage {
     }
 }
 
-private enum class ParkingLotEmulatorOption {
-    PLACEHOLDER, READ_DATA_FROM_FILE, MANUALLY_INPUT_DATA, EXIT
-}
+//private enum class ParkingLotEmulatorOption {
+//    PLACEHOLDER, READ_DATA_FROM_FILE, MANUALLY_INPUT_DATA, EXIT
+//}
