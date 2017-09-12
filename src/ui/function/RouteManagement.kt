@@ -1,6 +1,7 @@
 package ui.function
 
 import manager.FileManager
+import manager.NoticeManager
 import manager.RouteManager
 import manager.SpotManager
 import model.scenicArea.Route
@@ -183,6 +184,18 @@ class RouteManagementPage {
                 if (isSave) {
                     pendingList.forEach { RouteManager.add(it) }
                     FileManager.saveAllRoutes()
+                    // 发布公告
+                    var notice = String.format(UiUtil.getString("numRoutesAreAdded"), pendingList.count())
+                    val it = pendingList.iterator()
+                    while (it.hasNext()) {
+                        val route = it.next()
+                        notice += route.name1 + " -> " + route.name2
+                        notice += if (it.hasNext())
+                            UiUtil.getString("comma")
+                        else
+                            UiUtil.getString("period")
+                    }
+                    NoticeManager.add(notice)
                 }
             }
         }
@@ -289,7 +302,7 @@ class RouteManagementPage {
                     pendingList.add(Route(name1, name2, distance))
                 }
 
-                // 询问是否继续添加
+                // 询问是否继续修改
                 print(UiUtil.getString("isContinueModifying"))
                 println(UiUtil.getString("yesOrNo"))
                 val isContinueAdding = UiUtil.enterChoice()
@@ -312,6 +325,18 @@ class RouteManagementPage {
                 if (isSave) {
                     pendingList.forEach { RouteManager.updateDistance(it) }
                     FileManager.saveAllRoutes()
+                    // 发布公告
+                    var notice = String.format(UiUtil.getString("numRoutesAreModified"), pendingList.count())
+                    val it = pendingList.iterator()
+                    while (it.hasNext()) {
+                        val route = it.next()
+                        notice += route.name1 + " -> " + route.name2
+                        notice += if (it.hasNext())
+                            UiUtil.getString("comma")
+                        else
+                            UiUtil.getString("period")
+                    }
+                    NoticeManager.add(notice)
                 }
             }
         }
@@ -433,6 +458,18 @@ class RouteManagementPage {
                 if (isSave) {
                     pendingList.forEach { RouteManager.remove(it) }
                     FileManager.saveAllRoutes()
+                    // 发布公告
+                    var notice = String.format(UiUtil.getString("numRoutesAreRemoved"), pendingList.count())
+                    val it = pendingList.iterator()
+                    while (it.hasNext()) {
+                        val route = it.next()
+                        notice += route.name1 + " -> " + route.name2
+                        notice += if (it.hasNext())
+                            UiUtil.getString("comma")
+                        else
+                            UiUtil.getString("period")
+                    }
+                    NoticeManager.add(notice)
                 }
             }
         }
