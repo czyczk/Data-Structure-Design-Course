@@ -152,7 +152,7 @@ class ParkingLotEmulatorPage {
                             val lastEnter = emulator.eventTimetable.last {
                                 it.licenseNumber == license && it.event == ParkingLotEventEnum.ENTER
                             }
-                            val duration = emulator.time - lastEnter.time
+                            val duration = emulator.time - 1 - lastEnter.time // 在输出停车时长前模拟器已进入下一时间，故 -1
                             println(String.format(UiUtil.getString("durationOfStay"), duration)) // 输出停车时长
                         }
                         else
