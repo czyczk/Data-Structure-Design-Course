@@ -65,10 +65,13 @@ class FileManager {
 
         // 读取密码
         private fun loadPassword() {
-            // 文件不存在则退出
-            if (!File(passwordFilename).exists())
+            // 文件不存在则创建含默认密码的密码文件
+            val file = File(passwordFilename)
+            if (!file.exists()) {
+                savePassword()
                 return
-            // 读取
+            }
+            // 文件存在则读取密码
             val reader = BufferedReader(FileReader(passwordFilename))
             val password = reader.readText()
             reader.close()
