@@ -25,6 +25,12 @@ class QueryScenicSpotPage {
         fun run() {
             while (true) {
                 println(UiUtil.getString("queryScenicSpot"))
+
+                // 没有景点则返回上级
+                val isSpotAvailable = UiUtil.checkIfAnySpotIsAvailable()
+                if (!isSpotAvailable)
+                    return
+
                 // 显示可选模式
                 optionList.forEach { t, u ->
                     println("\t$t. ${UiUtil.getString(u.name, true)}")
@@ -73,11 +79,6 @@ class QueryScenicSpotPage {
 
             val isNameOnly = searchMode == QueryScenicSpotOption.SEARCH_IN_NAME_ONLY
 
-            // 没有景点则返回上级
-            val isSpotAvailable = UiUtil.checkIfAnySpotIsAvailable()
-            if (!isSpotAvailable)
-                return
-
             while (true) {
                 // 等待用户输入关键词
                 print(UiUtil.getString("enterKeywordOfSpot"))
@@ -104,11 +105,6 @@ class QueryScenicSpotPage {
         }
 
         private fun showAllSpotsOrderedBy(orderBy: QueryScenicSpotOption) {
-            // 没有景点则返回上级
-            val isSpotAvailable = UiUtil.checkIfAnySpotIsAvailable()
-            if (!isSpotAvailable)
-                return
-
             /* 根据选择决定排序依据和是否反向
              * 按名字正向；按欢迎度反向
              */

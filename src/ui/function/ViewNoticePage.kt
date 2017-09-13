@@ -9,7 +9,7 @@ class ViewNoticePage {
             println(UiUtil.getString("viewNotice"))
             val noticeList = NoticeManager.fetchAll()
             if (noticeList.isEmpty()) {
-                println(UiUtil.getString("noNoticeAvailable"))
+                UiUtil.printErrorMessage(UiUtil.getString("noNoticeAvailable"))
             } else {
                 noticeList.forEachIndexed { i, s ->
                     println("\t${i + 1}. $s")

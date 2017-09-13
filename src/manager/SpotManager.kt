@@ -75,7 +75,7 @@ class SpotManager {
             }
 
             if (!isNameOnly) {
-                val rest = spotMap.keys
+                val rest = spotMap.keys.toMutableSet()
                 rest.removeAll(result)
                 rest.forEach {
                     if (spotMap[it]!!.introduction.contains(keyword))

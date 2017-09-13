@@ -95,8 +95,9 @@ class UiUtil {
          */
         fun printErrorMessage(message: String?, @Suppress("UNUSED_PARAMETER") newLine: Boolean = true) {
             if (message != null) {
+                Thread.sleep(5)
                 System.err.println(message)
-                Thread.sleep(10)
+                Thread.sleep(5)
             } else {
                 println()
             }
@@ -117,8 +118,8 @@ class UiUtil {
             val numFullWidthChars = matcher.group().count()
             desiredWidth += numFullWidthChars
 
-            if (width < desiredWidth)
-                throw IllegalArgumentException("widthIsSmallerThanDesired")
+//            if (width < desiredWidth)
+//                throw IllegalArgumentException("widthIsSmallerThanDesired")
 
             val result = String.format("%-${width - numFullWidthChars}s", str)
             if (newLine)
