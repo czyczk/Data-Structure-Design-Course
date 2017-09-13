@@ -1,8 +1,11 @@
 package ui.function
 
+import algorithm.BacktrackingGraphIterator
 import algorithm.MstGenerator
 import algorithm.MstIterator
+import manager.RouteManager
 import manager.SpotManager
+import model.scenicArea.PlannedRoute
 import util.UiUtil
 
 class QueryTouristRoutePage {
@@ -21,6 +24,20 @@ class QueryTouristRoutePage {
         }
 
         fun run() {
+            // 没有景点则返回上级
+            val isSpotAvailable = UiUtil.checkIfAnySpotIsAvailable()
+            if (!isSpotAvailable)
+                return
+
+            // 如果有景点没有连通，则不能遍历所有景点，提示该错误
+            val isAllSpotsConnected = RouteManager.routeMap.values.none { it.isEmpty }
+            if (!isAllSpotsConnected) {
+                UiUtil.printErrorMessage(UiUtil.getString("notAllSpotsAreConnected"))
+                println(UiUtil.getString("pressEnterToContinue"))
+                readLine()
+                return
+            }
+
             while (true) {
                 println(UiUtil.getString("queryTouristRoute"))
                 // 显示可选模式
@@ -64,11 +81,6 @@ class QueryTouristRoutePage {
         }
 
         private fun queryTouristRoute(option: QueryTouristRouteOption) {
-            // 没有景点则返回上级
-            val isSpotAvailable = UiUtil.checkIfAnySpotIsAvailable()
-            if (!isSpotAvailable)
-                return
-
             var departure: String
             while (true) {
                 // 等待用户输入起点并检验
@@ -117,16 +129,37 @@ class QueryTouristRoutePage {
                         break
                 }
 
+                // 只有不指定目的地或者要求回路的时候，通过回溯算法获得结果（该算法不支持指定目的地）
+                var plannedRouteBacktracking: PlannedRoute? = null
+                if (destination == null || departure == destination) {
+                    plannedRouteBacktracking = BacktrackingGraphIterator(
+                            RouteManager.routeMap.toMap(),
+                            SpotManager.spotMap.keys.count(),
+                            departure,
+                            departure == destination
+                    ).planRoute()
+                }
+
                 // 获取以 departure 为起点的最小生成树
                 val mst = MstGenerator.generate(departure)
-                // 获得该最小生成树的遍历
-                val plannedRoute = MstIterator.planRoute(mst, destination)
+                // 通过自定义算法遍历该最小生成树获得的结果
+                val plannedRouteCustom = MstIterator.planRoute(mst, destination)
+
+                // 比较结果
+                var bestResult = plannedRouteBacktracking
+                var achievedBy = UiUtil.getString("backtrackingAlgorithm")
+                if (plannedRouteBacktracking == null || plannedRouteCustom.totalDistance < plannedRouteBacktracking.totalDistance) {
+                    bestResult = plannedRouteCustom
+                    achievedBy = UiUtil.getString("customAlgorithm")
+                }
 
                 // 展示结果
-                plannedRoute.routeList.forEachIndexed { index, route ->
+                println(String.format(UiUtil.getString("bestResultAchievedBy"), achievedBy))
+                bestResult as PlannedRoute
+                bestResult.routeList.forEachIndexed { index, route ->
                     println("${index + 1}. $route")
                 }
-                println("${UiUtil.getString("totalDistance")}${plannedRoute.totalDistance}")
+                println("${UiUtil.getString("totalDistance")}${UiUtil.beautifyDouble(bestResult.totalDistance)}")
 
                 // 询问是否继续查询
                 print(UiUtil.getString("isContinueQuerying"))

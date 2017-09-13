@@ -1,6 +1,7 @@
 package ui.function
 
 import algorithm.RoutePlanner
+import manager.RouteManager
 import manager.SpotManager
 import util.UiUtil
 
@@ -8,9 +9,14 @@ class QueryDistancePage {
     companion object {
         fun run() {
             println(UiUtil.getString("queryDistance"))
+
+            // 如果不存在景点则返回上级
             val isSpotAvailable = UiUtil.checkIfAnySpotIsAvailable()
             if (!isSpotAvailable)
                 return
+
+            // 获取未连通的景点。若稍后查询到此景点则提示景点未连通。
+            val spotsNotConnected = RouteManager.routeMap.filter { it.value.isEmpty }.map { it.key }
 
             while (true) {
                 var pass: Boolean
@@ -32,6 +38,11 @@ class QueryDistancePage {
                     if (!SpotManager.spotMap.containsKey(src)) {
                         pass = false
                         UiUtil.printErrorMessage(UiUtil.getString("theSpotDoesNotExist"))
+                    }
+                    // 若景点未连通则重输
+                    else if (src in spotsNotConnected) {
+                        pass = false
+                        UiUtil.printErrorMessage(UiUtil.getString("theSpotIsNotConnected"))
                     }
                 } while (!pass)
 
@@ -62,8 +73,14 @@ class QueryDistancePage {
 
                 // 检查出发地与目的地是否一致
                 if (src == dest) {
-                    println(UiUtil.getString("departureAndDestinationAreTheSame"))
-                } else {
+                    UiUtil.printErrorMessage(UiUtil.getString("departureAndDestinationAreTheSame"))
+                }
+                // 若目的地景点未连通则提示景点未连通，完成此轮查询
+                else if (dest in spotsNotConnected) {
+                    UiUtil.printErrorMessage(UiUtil.getString("theSpotIsNotConnected"))
+                }
+                // 否则，为正查查询
+                else {
                     val plannedRoute = RoutePlanner(src, dest).planBestRoute()
                     plannedRoute.routeList.forEachIndexed { index, route ->
                         println("${index + 1}. $route")
