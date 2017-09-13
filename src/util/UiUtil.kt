@@ -1,5 +1,6 @@
 package util
 
+import manager.PasswordManager
 import manager.RouteManager
 import manager.SpotManager
 import java.math.BigDecimal
@@ -175,10 +176,14 @@ class UiUtil {
          * 接收用户回应相关。
          */
 
+        /**
+         * 验证密码。
+         * @return 密码是否正确
+         */
         fun verifyAdministratorIdentity(): Boolean {
-            val input = readLine()
-            // TODO Verify the password.
-            return input == "password"
+            println(UiUtil.getString("enterPassword"))
+            val input = readLine()!!
+            return input == PasswordManager.password
         }
 
         /**

@@ -48,7 +48,6 @@ class LoginPage {
 
                 // 如果选择管理员登录，则需使用密码验证身份
                 if (identity == LoginOption.ADMINISTRATOR) {
-                    println("输入密码：")
                     val isIdentityVerified = UiUtil.verifyAdministratorIdentity()
                     if (!isIdentityVerified) {
                         // 提示密码错误
