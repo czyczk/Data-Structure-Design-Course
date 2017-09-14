@@ -15,8 +15,14 @@ class QueryDistancePage {
             if (!isSpotAvailable)
                 return
 
-            // 获取未连通的景点。若稍后查询到此景点则提示景点未连通。
-            val spotsNotConnected = RouteManager.routeMap.filter { it.value.isEmpty }.map { it.key }
+            // 如果有景点未连通则返回上级
+            val isAllSpotsConnected = RouteManager.routeMap.values.none { it.isEmpty }
+            if (!isAllSpotsConnected) {
+                UiUtil.printErrorMessage(UiUtil.getString("notAllSpotsAreConnected"))
+                println(UiUtil.getString("pressEnterToContinue"))
+                readLine()
+                return
+            }
 
             while (true) {
                 var pass: Boolean
@@ -38,11 +44,6 @@ class QueryDistancePage {
                     if (!SpotManager.spotMap.containsKey(src)) {
                         pass = false
                         UiUtil.printErrorMessage(UiUtil.getString("theSpotDoesNotExist"))
-                    }
-                    // 若景点未连通则重输
-                    else if (src in spotsNotConnected) {
-                        pass = false
-                        UiUtil.printErrorMessage(UiUtil.getString("theSpotIsNotConnected"))
                     }
                 } while (!pass)
 
@@ -74,10 +75,6 @@ class QueryDistancePage {
                 // 检查出发地与目的地是否一致
                 if (src == dest) {
                     UiUtil.printErrorMessage(UiUtil.getString("departureAndDestinationAreTheSame"))
-                }
-                // 若目的地景点未连通则提示景点未连通，完成此轮查询
-                else if (dest in spotsNotConnected) {
-                    UiUtil.printErrorMessage(UiUtil.getString("theSpotIsNotConnected"))
                 }
                 // 否则，为正查查询
                 else {
