@@ -44,7 +44,7 @@ class ViewScenicSpotMapPage {
                             0.0
                         } else {
                             val route = RouteManager.query(i.name, j.name)
-                            route?.distance ?: 65535.0
+                            route?.distance ?: 32767.0
                         }
                         UiUtil.printStringInFixedWidth(UiUtil.beautifyDouble(distance), width, false)
                     }
